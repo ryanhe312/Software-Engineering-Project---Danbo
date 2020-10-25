@@ -3,6 +3,7 @@
       <v-card class="overflow-hidden" yellow lighten-5>
         <TopBar />
         <Tweets />
+        <DashboardCoreView />
       </v-card>
   </v-app>
 </template>
@@ -14,9 +15,9 @@ export default {
   components: {
     TopBar: () => import("../components/TopBar"),
     Tweets: () => import("../components/Tweets"),
-    // DashboardCoreDrawer: () => import('./components/Drawer'),
-    // DashboardCoreSettings: () => import('./components/Settings'),
-    // DashboardCoreView: () => import('./components/View'),
+    //DashboardCoreDrawer: () => import('../components/Drawer'),
+    //DashboardCoreSettings: () => import('../components/Settings'),
+    DashboardCoreView: () => import('../components/View'),
   },
 
   data: () => ({
