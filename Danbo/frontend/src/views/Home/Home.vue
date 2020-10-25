@@ -1,19 +1,9 @@
 <template>
   <v-app>
-    <v-card class="overflow-hidden" yellow lighten-5>
-      <TopBar />
-      <v-container fluid>
-        <v-row>
-          <v-col cols="2" sm="4" offset-sm="2">
-            <Tweets />
-          </v-col>
-
-          <v-col cols="2" sm="4">
-            <SideBar />
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-card>
+      <v-card class="overflow-hidden" yellow lighten-5>
+        <TopBar />
+        <Tweets />
+      </v-card>
   </v-app>
 </template>
 
@@ -24,7 +14,6 @@ export default {
   components: {
     TopBar: () => import("../components/TopBar"),
     Tweets: () => import("../components/Tweets"),
-    SideBar: () => import("../components/SideBar"),
     // DashboardCoreDrawer: () => import('./components/Drawer'),
     // DashboardCoreSettings: () => import('./components/Settings'),
     // DashboardCoreView: () => import('./components/View'),
