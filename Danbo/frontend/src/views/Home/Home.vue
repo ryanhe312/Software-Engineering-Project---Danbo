@@ -1,8 +1,9 @@
 <template>
-  <v-app>
+  <v-app >
+    <div class="grey lighten-5">
     <v-card class="overflow-hidden" yellow lighten-5>
       <TopBar />
-      <v-container fluid>
+      <v-container fluid >
         <v-row>
           <v-col cols="2" sm="4" offset-sm="2">
             <Tweets />
@@ -14,6 +15,7 @@
         </v-row>
       </v-container>
     </v-card>
+    </div>
   </v-app>
 </template>
 
