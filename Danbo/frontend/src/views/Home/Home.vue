@@ -26,7 +26,6 @@ export default {
   components: {
     TopBar: () => import("../components/TopBar"),
     Tweets: () => import("../components/Tweets"),
-    SideBar: () => import("../components/SideBar"),
     // DashboardCoreDrawer: () => import('./components/Drawer'),
     // DashboardCoreSettings: () => import('./components/Settings'),
     // DashboardCoreView: () => import('./components/View'),
