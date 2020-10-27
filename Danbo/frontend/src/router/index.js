@@ -18,7 +18,6 @@ const routes = [
      path: '/',
      name: 'Personal',
      component: () => import('../views/Personal/Personal.vue')
->>>>>>> Stashed changes
    }
 ]
 
