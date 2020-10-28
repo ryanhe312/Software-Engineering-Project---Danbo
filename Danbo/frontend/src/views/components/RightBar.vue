@@ -30,7 +30,7 @@
       text
       color="primary"
     >
-      Following
+    <router-link  to="/follow">Following</router-link>
     </v-btn>
     <v-btn
       text

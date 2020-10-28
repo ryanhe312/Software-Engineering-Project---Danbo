@@ -5,15 +5,11 @@
       <TopBar />
       <v-container fluid >
         <v-row justify="center">
-          <v-col sm="2">
+        <v-col sm="2">
             <RightBar/>
           </v-col>
-          <v-col sm="6">
-            <Tweets />
-          </v-col>
-
-          <v-col sm="3">
-            <SideBar />
+          <v-col sm="9">
+              <Followers/>
           </v-col>
         </v-row>
       </v-container>
@@ -24,13 +20,17 @@
 
 <script>
 export default {
-  name: "Home",
+  name: "Follow",
 
   components: {
     TopBar: () => import("../components/TopBar"),
-    Tweets: () => import("../components/Tweets"),
-    SideBar: () => import("../components/SideBar"),
+    Followers: () => import("../components/Followers"),
+    // Tweets: () => import("../components/Tweets"),
+    // SideBar: () => import("../components/SideBar"),
     RightBar: () => import("../components/RightBar"),
+    // DashboardCoreDrawer: () => import('./components/Drawer'),
+    // DashboardCoreSettings: () => import('./components/Settings'),
+    // DashboardCoreView: () => import('./components/View'),
   },
 
   data: () => ({
