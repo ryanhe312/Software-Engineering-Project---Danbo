@@ -1,7 +1,15 @@
 <template>
-  <v-card
+  <v-card class="mx-n16" width="1000" height="800">
+    <v-system-bar></v-system-bar>
+    <v-card elevation="0" class="mt-4 mx-auto">
+      <p class="title" align="center">Security</p>
+    </v-card>
+    <v-divider></v-divider>
+    <v-row class="mt-10">
+      <v-card
     class="mx-auto"
-    max-width="500"
+    width="500"
+
   >
     <v-card-title class="title font-weight-regular justify-space-between">
       <span>{{ currentTitle }}</span>
@@ -18,16 +26,20 @@
         <v-card-text>
           <v-text-field
             label="Email"
-            value=""
+            v-model="mail"
           ></v-text-field>
           <span class="caption grey--text text--darken-1">
-            This is the email you will use to login to your Vuetify account
+            This is the email you used to login to your Danbo account
           </span>
         </v-card-text>
       </v-window-item>
 
       <v-window-item :value="2">
         <v-card-text>
+            <v-text-field
+            label="Verification Code"
+            type="vertification"
+          ></v-text-field>
           <v-text-field
             label="Password"
             type="password"
@@ -37,7 +49,7 @@
             type="password"
           ></v-text-field>
           <span class="caption grey--text text--darken-1">
-            Please enter a password for your account
+            Please enter the vertification send to your mailbox, then change your password
           </span>
         </v-card-text>
       </v-window-item>
@@ -51,9 +63,9 @@
             src="https://cdn.vuetifyjs.com/images/logos/v.svg"
           ></v-img>
           <h3 class="title font-weight-light mb-2">
-            Welcome to Vuetify
+            Succeed!
           </h3>
-          <span class="caption grey--text">Thanks for signing up!</span>
+          <span class="caption grey--text">click to continue!</span>
         </div>
       </v-window-item>
     </v-window>
@@ -70,31 +82,32 @@
       </v-btn>
       <v-spacer></v-spacer>
       <v-btn
-        :disabled="step === 3"
         color="primary"
         depressed
         @click="step++"
       >
-        Next
+        Continue
       </v-btn>
     </v-card-actions>
+  </v-card>
+    </v-row>
   </v-card>
 </template>
 
 <script>
-  export default {
-    data: () => ({
+export default {
+  data: () => ({
       step: 1,
-    }),
-
-    computed: {
+      mail:"17307130181@fudan.edu.cn",
+  }),
+  computed: {
       currentTitle () {
-        switch (this.step) {
-          case 1: return 'Sign-up'
-          case 2: return 'Create a password'
-          default: return 'Account created'
+        switch (this.step%3) {
+          case 1: return 'Verify mailbox'
+          case 2: return 'Change your password'
+          default: return 'Succeed'
         }
       },
     },
-  }
+};
 </script>
