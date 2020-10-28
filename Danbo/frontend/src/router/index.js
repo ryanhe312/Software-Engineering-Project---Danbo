@@ -4,18 +4,13 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
-  //{
-  //  path: '/',
-  //  name: 'Home',
-  //  component: () => import('../views/Home/Home.vue')
-  //},
   {
-<<<<<<< Updated upstream
     path: '/',
-    name: 'Sign',
-    component: () => import('../views/Sign/Sign.vue')
-=======
-     path: '/',
+    name: 'Home',
+    component: () => import('../views/Home/Home.vue')
+  },
+  {
+     path: '/Personal',
      name: 'Personal',
      component: () => import('../views/Personal/Personal.vue')
    }

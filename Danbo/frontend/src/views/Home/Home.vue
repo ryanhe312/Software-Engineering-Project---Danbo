@@ -1,12 +1,5 @@
 <template>
   <v-app>
-<<<<<<< Updated upstream
-      <v-card class="overflow-hidden" yellow lighten-5>
-        <TopBar />
-        <Tweets />
-        <DashboardCoreView />
-      </v-card>
-=======
     <div class="grey lighten-5">
       <v-card class="overflow-hidden" yellow lighten-5>
         <TopBar />
@@ -23,7 +16,6 @@
         </v-container>
       </v-card>
     </div>
->>>>>>> Stashed changes
   </v-app>
 </template>
 
