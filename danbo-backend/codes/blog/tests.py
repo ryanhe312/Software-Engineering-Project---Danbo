@@ -9,7 +9,6 @@ class TestBlog(TestCase):
     # 博客测试
     # release_blog...
     # get_blog...
-    # 评论等测试待添加
 
     def setUp(self):
 
