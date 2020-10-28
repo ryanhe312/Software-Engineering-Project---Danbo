@@ -11,7 +11,6 @@
           <v-col sm="6">
             <Tweets />
           </v-col>
-
           <v-col sm="3">
             <SideBar />
           </v-col>

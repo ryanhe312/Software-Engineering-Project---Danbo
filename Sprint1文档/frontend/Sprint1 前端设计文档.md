@@ -42,3 +42,146 @@
 
 ![image-20201028194106043](\image-20201028194106043.png)
 
+### 个人信息页面
+
+由主页点击进入，顶部继承了主页的danbo封面页面。
+
+- 侧栏为信息选择框，需显示头像、昵称和注册邮箱。现已实现个人信息、头像、安全、关于我们。隐私和设置等待后续商讨后添加功能或删除。
+
+- 个人信息主要是显示已有信息，设置save按键支持修改信息。
+
+- 头像界面显示头像，并提供上传修改。
+
+- 安全界面提供邮箱验证以修改密码。
+
+- 关于我们显示团队信息，后续将添加版本信息
+
+![image-20201028202650047](\image-20201028202650047.png)
+
+![image-20201028202708205](\image-20201028202708205.png)
+
+![image-20201028202726551](\image-20201028202726551.png)
+
+![image-20201028202741491](\image-20201028202741491.png)
+
+![image-20201028202752399](\image-20201028202752399.png)
+
+
+
+## 前端实现
+
+### 基本框架
+
+<img src="\image-20201028195911534.png" alt="image-20201028195911534" style="zoom:67%;" />
+
+使用vue.js建立了frontend整个框架，简介一下重要文件夹的作用
+
+`public`：html模板放置位置
+
+`node_modules`：每次`npm install`时会根据`pakage.json`的信息安装所需要的依赖包
+
+`src`：最重要部分
+
+​	`router/index.js`：注册所有需要的页面，每次建立新页面需要更新
+
+​	`views`：页面内容
+
+​		`components`：页面的所需要的组件，写好了放这里
+
+​		`follow/personal/home/sign`等：建立的几个页面
+
+`vue.config.js`：配置页面的入口
+
+##### 单个页面的内容
+
+![image-20201028201233974](\image-20201028201233974.png)
+
+以`Home.vue`为例，`vue.js`的结构主要是上面的`template`和下面的`script`。可以通过`export`的方式，将组件输出出去。`components`主要是导入一下需要使用的组件库，来自于文件夹下其他`vue`文件。`data`部分涉及到后面传参和前后端交互。
+
+```vue
+<template>
+  ...
+</template>
+
+<script>
+export default {
+  name: "Home",
+
+  components: {
+    TopBar: () => import("../components/TopBar"),
+    Tweets: () => import("../components/Tweets"),
+    SideBar: () => import("../components/SideBar"),
+    RightBar: () => import("../components/RightBar"),
+  },
+
+  data: () => ({
+  }),
+};
+</script>
+```
+
+`router.js`中用来设置路由：所有页面都需要在其中进行注册。
+
+```js
+const routes = [
+  {
+   path: '/',
+   name: 'Home',
+   component: () => import('../views/Home/Home.vue')
+  },
+  {
+    path: '/sign',
+    name: 'Sign',
+    component: () => import('../views/Sign/Sign.vue')
+   },
+   {
+     path:'/follow',
+     name:'Follow',
+     component: () => import("../views/Follow/Follow.vue")
+   },
+   {
+    path:'/personal',
+    name:'personal',
+    component: () => import("../views/Personal/Personal.vue")
+  },
+]
+```
+
+## 前端环境配置
+
+#### 需要安装的包
+
+使用前需要使用`npm`，`git`，`node.js`等内容，需要提前安装好，进行环境配置。安装好后，在`frontend`的文件夹下执行命令
+
+```
+npm install
+```
+
+此命令会根据`package.json`的内容，安装好所有需要的包，存放在`node_modules`里面。这个过程第一次执行可能会花一段时间。
+
+#### 运行
+
+前端单独测试的时候，使用命令
+
+```
+npm run serve
+```
+
+点击进入跳转的页面，即可实时看到代码所对应的前端页面。
+
+和后端一起测试的时候，需要先执行
+
+```
+npm run build
+```
+
+进行打包，生成`dist`文件夹
+
+然后在项目文件夹下，执行后端的命令
+
+```
+python manage.py runserver
+```
+
+
+

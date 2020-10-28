@@ -19,6 +19,11 @@ const routes = [
      name:'Follow',
      component: () => import("../views/Follow/Follow.vue")
    },
+   {
+    path:'/personal',
+    name:'personal',
+    component: () => import("../views/Personal/Personal.vue")
+  },
 ]
 
 const router = new VueRouter({
