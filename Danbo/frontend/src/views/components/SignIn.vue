@@ -17,7 +17,9 @@
           v-model="password"
         ></v-text-field>
         <p class="text-right">
-          <a href="#" class="text-decoration-none">Forget Password?</a>
+          <a href="#" class="text-decoration-none"
+            ><router-link to="/forget">Forget Password?</router-link></a
+          >
         </p>
         <v-btn
           name="login_btn"
@@ -25,8 +27,9 @@
           @click="req_login"
           max-width="300"
           min-width="300"
-          >Sign In</v-btn
         >
+          <router-link to="/">Sign In</router-link>
+        </v-btn>
       </v-form>
     </v-row>
   </v-container>
@@ -51,4 +54,14 @@ export default {
     req_login() {},
   },
 };
-</script> 
+</script>
+
+<style scoped>
+.router-link-active {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+}
+a {
+  text-decoration: none;
+}
+</style>

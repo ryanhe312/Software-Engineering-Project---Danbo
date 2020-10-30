@@ -33,9 +33,17 @@
                   <v-list-item-content>
                     <v-list-item-title v-text="item.text"></v-list-item-title>
                   </v-list-item-content>
-                </v-list-item>
+                </v-list-item>                
               </v-list-item-group>
             </v-list>
+            <v-btn
+      class="ma-2"
+      outlined
+      center
+      color="indigo"
+    >
+    <router-link  to="/sign">Sign Out</router-link>
+    </v-btn>
           </v-navigation-drawer>
         </v-card>
       </v-col>
@@ -82,8 +90,17 @@ export default {
       { text: "Setting", icon: "mdi-wrench" },
       { text: "Security", icon: "mdi-security" },
       { text: "About us", icon: "mdi-emoticon-kiss-outline" },
-      { text: "Sign out", icon: "mdi-arrow-down-bold-circle" },
+      // { text: "Sign out", icon: "mdi-arrow-down-bold-circle" },
     ],
   }),
 };
 </script>
+
+<style scoped>
+.router-link-active {    
+  text-decoration: none;
+}
+ a {
+  text-decoration: none;
+ }
+</style>

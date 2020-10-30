@@ -7,7 +7,7 @@
     <v-list-item three-line>
       <v-list-item-content>
         <div class="overline mb-1">
-          Ning
+          <router-link  to="/personal">Ning</router-link>
         </div>
         <v-list-item-subtitle>Fudan CS.</v-list-item-subtitle>
       </v-list-item-content>
@@ -36,7 +36,7 @@
       text
       color="primary"
     >
-      Followers
+    <router-link  to="/follow">Followers</router-link>
     </v-btn>
     </v-card-actions>
   </v-card>
@@ -56,3 +56,12 @@ export default {
   methods: {},
 };
 </script>
+
+<style scoped>
+.router-link-active {    
+  text-decoration: none;
+}
+ a {
+  text-decoration: none;
+ }
+</style>

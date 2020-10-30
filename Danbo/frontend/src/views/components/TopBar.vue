@@ -18,7 +18,9 @@
 
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Danbo</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link  to="/">Danbo</router-link>
+      </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -62,3 +64,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.router-link-active {    
+  text-decoration: none;
+  color:rgb(255, 255, 255);
+}
+ a {
+  text-decoration: none;
+ }
+</style>
