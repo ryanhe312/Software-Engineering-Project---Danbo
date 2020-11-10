@@ -51,7 +51,38 @@ export default {
     ],
   }),
   methods: {
-    req_login() {},
+    req_login: function () {
+      if (this.username == "" || this.password == "") {
+        alert("请输入用户名和密码！");
+      } else {
+        this.axios
+          .post(
+            "/user/login",
+            {
+              username: this.username,
+              password: this.password,
+            },
+            {
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            }
+          )
+          .then((response) => this.ack_login(response))
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    },
+
+    ack_login: function (response) {
+      var data = response.data;
+      if (data.err_code == 200) {
+        alert("登录成功！欢迎" + this.username);
+        this.$router.push("/");
+      } else {
+        alert("登录失败\n" + data.message);
+      }
+      //location.reload();
+    },
   },
 };
 </script>

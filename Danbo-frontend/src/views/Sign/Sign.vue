@@ -40,5 +40,27 @@ export default {
   data: () => ({
     tab: null,
   }),
+  mounted() {
+    this.checkLogin();
+  },
+  methods: {
+    async checkLogin() {
+      await this.axios
+        .post("/user/getUsername/", {}, {
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        })
+        .then((response) => this.ack_ask_login_user(response))
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+
+    ack_ask_login_user: function (response) {
+      if (response.data.err_code == 200) {
+        alert("已经登录！");
+        this.$router.push("/");
+      }
+    },
+  },
 };
 </script>
