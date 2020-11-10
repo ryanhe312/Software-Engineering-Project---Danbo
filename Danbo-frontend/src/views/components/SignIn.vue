@@ -50,9 +50,6 @@ export default {
       (v) => /.+@.+\..+/.test(v) || "Password must be valid",
     ],
   }),
-  mounted() {
-    this.checkLogin();
-  },
   methods: {
     req_login: function () {
       if (this.username == "" || this.password == "") {
@@ -60,11 +57,11 @@ export default {
       } else {
         this.axios
           .post(
-            url + "/user/login",
-            (data = {
+            "/user/login",
+            {
               username: this.username,
               password: this.password,
-            }),
+            },
             {
               headers: { "Content-Type": "application/x-www-form-urlencoded" },
             }
@@ -85,29 +82,6 @@ export default {
         alert("登录失败\n" + data.message);
       }
       //location.reload();
-    },
-
-    async checkLogin() {
-      await axios
-        .post(url + "/user/getUsername/", (data = {}), {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        })
-        .then((response) => ack_ask_login_user(response))
-        .catch(function (error) {
-          console.log(error);
-        });
-      if (!is_logged_in) {
-        alert("请先登录！");
-        location = "sign.html";
-        return;
-      }
-    },
-
-    ack_ask_login_user: function (response) {
-      if (response.data.err_code == 200) {
-        alert("已登录！");
-        this.$router.push("/");
-      }
     },
   },
 };

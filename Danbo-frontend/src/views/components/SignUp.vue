@@ -79,9 +79,6 @@ export default {
     ],
     last_verify_time: 0,
   }),
-  mounted() {
-    this.checkLogin();
-  },
   methods: {
     req_register: function () {
       if (
@@ -102,13 +99,13 @@ export default {
         this.axios
           .post(
             "/user/register",
-            (data = {
+            {
               username: this.name,
               password: this.password,
               r_password: this.password_re,
               email: this.email,
               code: this.verification_code,
-            }),
+            },
             {
               headers: { "Content-Type": "application/x-www-form-urlencoded" },
             }
@@ -131,12 +128,6 @@ export default {
     },
 
     req_verify: function () {
-      //验证邮箱格式
-      var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
-      if (!myreg.test(this.email)) {
-        alert("邮箱格式错误");
-        return;
-      }
       //验证发送间隔
       var curtime = new Date().getTime();
       if (curtime - this.last_verify_time < 60000) {
@@ -149,9 +140,9 @@ export default {
       this.axios
         .post(
           "/user/sendRegisterCode",
-          (data = {
+          {
             email: this.email,
-          }),
+          },
           {
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
           }
@@ -168,24 +159,6 @@ export default {
         alert("发送验证码成功");
       } else {
         alert("发送验证码失败\n" + data.message);
-      }
-    },
-
-    async checkLogin() {
-      await axios
-        .post(url + "/user/getUsername/", (data = {}), {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        })
-        .then((response) => this.ack_ask_login_user(response))
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-
-    ack_ask_login_user: function (response) {
-      if (response.data.err_code == 200) {
-        alert("已登录！");
-        this.$router.push("/");
       }
     },
   },

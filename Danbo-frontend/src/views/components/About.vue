@@ -8,13 +8,13 @@
     <div class="mt-10 text-center">
       <p class="font-weight-black">Here is Danbo team !</p>
     </div>
-    <v-row class="mt-10" justify="center">
+    <!-- <v-row class="mt-10" justify="center">
       <v-img
         max-height="300"
         max-width="400"
         src="../../../../../danbo.png"
       ></v-img>
-    </v-row>
+    </v-row> -->
   </v-card>
 </template>
 
