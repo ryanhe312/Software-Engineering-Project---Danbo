@@ -46,9 +46,7 @@ export default {
   methods: {
     async checkLogin() {
       await this.axios
-        .post("/user/getUsername/", {}, {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        })
+        .post("/user/getUsername")
         .then((response) => this.ack_ask_login_user(response))
         .catch(function (error) {
           console.log(error);
@@ -56,9 +54,9 @@ export default {
     },
 
     ack_ask_login_user: function (response) {
-      if (response.data.err_code == 200) {
+      if (response.data.error_code == 200) {
         alert("已经登录！");
-        this.$router.push("/");
+        this.$router.push("/home");
       }
     },
   },
