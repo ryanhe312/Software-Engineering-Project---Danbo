@@ -7,7 +7,7 @@
           :counter="20"
           :rules="nameRules"
           required
-          v-model="name"
+          v-model="username"
         ></v-text-field>
         <v-text-field
           label="E-mail"
@@ -57,7 +57,7 @@
 export default {
   data: () => ({
     valid: true,
-    name: "",
+    username: "",
     nameRules: [
       (v) => !!v || "Name is required",
       (v) => (v && v.length <= 20) || "Name must be less than 20 characters",
@@ -68,21 +68,16 @@ export default {
       (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
     ],
     password: "",
-    passwordRules: [
-      (v) => !!v || "Password is required",
-      (v) => /.+@.+\..+/.test(v) || "Password must be valid",
-    ],
+    password_re: "",
+    passwordRules: [(v) => !!v || "Password is required"],
     verification_code: "",
-    verificationRules: [
-      (v) => !!v || "Verification code is required",
-      (v) => (v && v.length == 4) || "Verification code must be 4 characters",
-    ],
+    verificationRules: [(v) => !!v || "Verification code is required"],
     last_verify_time: 0,
   }),
   methods: {
     req_register: function () {
       if (
-        this.name == "" ||
+        this.username == "" ||
         this.password == "" ||
         this.password_re == "" ||
         this.email == "" ||
@@ -93,23 +88,17 @@ export default {
         alert("两次输入的密码不一致！");
       } else if (this.password.length < 6) {
         alert("密码长度至少为6位！");
-      } else if (this.verification_code.length != 4) {
-        alert("验证码错误！");
       } else {
+        var formdata = new FormData();
+        formdata.append("username", this.username);
+        formdata.append("password", this.password);
+        formdata.append("r_password", this.password_re);
+        formdata.append("email", this.email);
+        formdata.append("code", this.verification_code);
         this.axios
-          .post(
-            "/user/register",
-            {
-              username: this.name,
-              password: this.password,
-              r_password: this.password_re,
-              email: this.email,
-              code: this.verification_code,
-            },
-            {
-              headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            }
-          )
+          .post("/user/register", formdata, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
           .then((response) => this.ack_register(response))
           .catch(function (error) {
             console.log(error);
@@ -119,9 +108,9 @@ export default {
 
     ack_register: function (response) {
       var data = response.data;
-      if (data.err_code == 200) {
+      if (data.error_code == 200) {
         alert("恭喜注册成功！请牢记用户名和密码");
-        this.$router.push("/");
+        this.$router.push("/home");
       } else {
         alert("注册失败\n" + data.message);
       }
@@ -129,24 +118,19 @@ export default {
 
     req_verify: function () {
       //验证发送间隔
-      var curtime = new Date().getTime();
-      if (curtime - this.last_verify_time < 60000) {
-        alert("发送过于频繁请一分钟后再试");
-        return;
-      }
+      // var curtime = new Date().getTime();
+      // if (curtime - this.last_verify_time < 60000) {
+      //   alert("发送过于频繁请一分钟后再试");
+      //   return;
+      // }
 
-      this.last_verify_time = curtime;
-
+      // this.last_verify_time = curtime;
+      var formdata = new FormData();
+      formdata.append("email", this.email);
       this.axios
-        .post(
-          "/user/sendRegisterCode",
-          {
-            email: this.email,
-          },
-          {
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          }
-        )
+        .post("/user/sendRegisterCode", formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
         .then((response) => this.ack_verify(response))
         .catch(function (error) {
           console.log(error);
@@ -155,7 +139,7 @@ export default {
 
     ack_verify: function (response) {
       var data = response.data;
-      if (data.err_code == 200) {
+      if (data.error_code == 200) {
         alert("发送验证码成功");
       } else {
         alert("发送验证码失败\n" + data.message);
