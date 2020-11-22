@@ -9,7 +9,7 @@
               <v-list-item>
                 <v-list-item-avatar>
                   <v-img
-                    src="https://cdn.vuetifyjs.com/images/john.png"
+                    :src="images"
                   ></v-img>
                 </v-list-item-avatar>
               </v-list-item>
@@ -33,17 +33,13 @@
                   <v-list-item-content>
                     <v-list-item-title v-text="item.text"></v-list-item-title>
                   </v-list-item-content>
-                </v-list-item>                
+                </v-list-item>
               </v-list-item-group>
             </v-list>
-            <v-btn
-      class="ma-2"
-      outlined
-      center
-      color="indigo"
-    >
-    <router-link  to="/sign">Sign Out</router-link>
-    </v-btn>
+             <v-card elevation="0" class="mt-10" height="10"> </v-card>
+            <v-btn class="mx-16" outlined center color="indigo" @click="req_quit">
+              Sign Out
+            </v-btn>
           </v-navigation-drawer>
         </v-card>
       </v-col>
@@ -55,13 +51,12 @@
           <v-window-item :value="1">
             <Profile />
           </v-window-item>
-          <v-window-item :value="2"> 
-          </v-window-item>
+          <v-window-item :value="2"> </v-window-item>
           <v-window-item :value="3"> </v-window-item>
-          <v-window-item :value="4"> 
+          <v-window-item :value="4">
             <Security />
           </v-window-item>
-          <v-window-item :value="5"> 
+          <v-window-item :value="5">
             <About />
           </v-window-item>
         </v-window>
@@ -75,13 +70,15 @@ export default {
   components: {
     Personalnews: () => import("../components/Personalnews"),
     Profile: () => import("../components/Profile"),
-    About: () => import("../components/About"), 
-    Security: () => import("../components/Security"), 
+    About: () => import("../components/About"),
+    Security: () => import("../components/Security"),
   },
 
   data: () => ({
     selectedItem: 0,
-    name: "Piner",
+    name: "",
+    user: "",
+    images:"",
     mail: "17307130181@fudan.edu.cn",
     items: [
       { text: "Personal information", icon: "mdi-account" },
@@ -90,17 +87,101 @@ export default {
       { text: "Setting", icon: "mdi-wrench" },
       { text: "Security", icon: "mdi-security" },
       { text: "About us", icon: "mdi-emoticon-kiss-outline" },
-      // { text: "Sign out", icon: "mdi-arrow-down-bold-circle" },
+      //{ text: "Sign out", icon: "mdi-arrow-down-bold-circle" },
     ],
   }),
+  created() {
+    this.req_user(), this.req_name();
+  },
+  methods: {
+    //获取用户名
+    req_user: function () {
+      this.axios
+        .post("/user/getUsername", {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((response) => this.ack_user(response))
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    ack_user: function (response) {
+      var data = response.data;
+      if (data.error_code == 200) {
+        this.user = data.data;
+      } else {
+        alert("用户名不存在\n");
+      }
+    },
+    //获取昵称
+    req_name: function () {
+      var formdata = new FormData();
+      formdata.append("user", this.user);
+      this.axios
+        .post("/user/getNickname", formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((response) => this.ack_name(response))
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    ack_name: function (response) {
+      var data = response.data;
+      if (data.error_code == 200) {
+        this.name = data.data;
+      } else {
+        this.name = data.data;
+      }
+    },
+    //获取头像
+    req_profile: function () {
+      var formdata = new FormData();
+      formdata.append("user", this.user);
+      this.axios
+        .post("/user/getProfile", formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((response) => this.ack_profile(response))
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    ack_profile: function (response) {
+      var data = response.data;
+      if (data.error_code == 200) {
+        this.images = data.data;
+      }
+    },
+    //登出
+    req_quit: function () {
+      this.axios
+        .post("/user/logout", {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((response) => this.ack_quit(response))
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    ack_quit: function (response) {
+      var data = response.data;
+      if (data.error_code == 200) {
+        alert("成功退出登录\n");
+        this.$router.push("/");
+      } else {
+        alert("当前未登录\n");
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
-.router-link-active {    
+.router-link-active {
   text-decoration: none;
 }
- a {
+a {
   text-decoration: none;
- }
+}
 </style>
