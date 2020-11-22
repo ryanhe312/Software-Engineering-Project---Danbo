@@ -7,7 +7,7 @@
           :counter="20"
           :rules="nameRules"
           required
-          v-model="name"
+          v-model="username"
         ></v-text-field>
         <v-text-field
           label="password"
@@ -39,19 +39,42 @@
 export default {
   data: () => ({
     valid: true,
-    name: "",
+    username: "",
     nameRules: [
       (v) => !!v || "Name is required",
       (v) => (v && v.length <= 20) || "Name must be less than 20 characters",
     ],
     password: "",
-    passwordRules: [
-      (v) => !!v || "Password is required",
-      (v) => /.+@.+\..+/.test(v) || "Password must be valid",
-    ],
+    passwordRules: [(v) => !!v || "Password is required"],
   }),
   methods: {
-    req_login() {},
+    req_login: function () {
+      if (this.username == "" || this.password == "") {
+        alert("请输入用户名和密码！");
+      } else {
+        var formdata = new FormData();
+        formdata.append("username", this.username);
+        formdata.append("password", this.password);
+        this.axios
+          .post("/user/login", formdata, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+          .then((response) => this.ack_login(response))
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    },
+
+    ack_login: function (response) {
+      var data = response.data;
+      if (data.error_code == 200) {
+        alert("登录成功！欢迎" + this.username);
+        this.$router.push("/home");
+      } else {
+        alert("登录失败\n" + data.message);
+      }
+    },
   },
 };
 </script>
