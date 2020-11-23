@@ -45,6 +45,7 @@ def release_blog(request):
             content = {"error_code": 431, "message": "用户名不存在或当前未登录", "data": None}
         else:
             text = request.POST.get('content')
+            print(text)
             pictures = request.FILES.getlist('pictures')
             if len(text) > 256:
                 content = {"error_code":433, "message":"正文内容不能超过256字", "data":None}

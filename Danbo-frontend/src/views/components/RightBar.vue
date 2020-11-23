@@ -44,15 +44,12 @@ export default {
     signature: "",
   }),
 
-  mounted() {
-    this.wait(2)
+  mounted: async function() {
+    await this.req_all();
     this.username = global.information["username"];
     // console.log(this.username)
   },
 
-  beforeCreate(){
-    
-  },
 
   created() {
     // this.req_all();

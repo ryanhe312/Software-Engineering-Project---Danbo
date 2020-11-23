@@ -7,7 +7,7 @@ const DEBUG = true;
 function generate_data(required_list) {
   // generate all the required data
   // required_list: list(str)
-    console.log("Entering generate_data",required_list)
+  // console.log("Entering generate_data",required_list)
   var required_data = new FormData();
   for (var i = 0; i < required_list.length; i++) {
     var data = required_list[i];
@@ -28,13 +28,13 @@ async function request_data(needed_data) {
   var api = request[0];
   var required_data = generate_data(request[1]);
 
-  console.log(required_data);
+//   console.log(required_data);
   //request needed data
   await axios.post(api, required_data).then((response) => {
     var data = response.data;
     if (data.error_code == 200)
-      console.log(needed_data, data.data),
-        (global.information[needed_data] = data.data);
+    //   console.log(needed_data, data.data),
+        global.information[needed_data] = data.data;
   });
 }
 
@@ -71,21 +71,7 @@ async function req_all() {
 }
 
 
-function release_blog(content){
-    var formdata = new FormData();
-    formdata.append("content",content);
-    var api = "/blog/releaseBlog"
 
-    //request needed data
-    axios.post(api, formdata).then((response) => {
-    var data = response.data;
-    if (data.error_code == 200)
-        console.log(data.data),
-        alert(data.message);
-  });
-
-
-}
 
 
 export default {
@@ -97,6 +83,5 @@ export default {
       generate_data(required_data);
     Vue.prototype.modify_data = (needed_data, changed_data) =>
       modify_data(needed_data, changed_data);
-    Vue.prototype.release_blog = () => release_blog();
   },
 };
