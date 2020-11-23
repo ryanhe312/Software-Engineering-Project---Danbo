@@ -109,8 +109,6 @@ export default {
       var data = response.data;
       if (data.error_code == 200) {
         this.user = data.data;
-      } else {
-        alert("用户名不存在\n");
       }
     },
     //获取昵称

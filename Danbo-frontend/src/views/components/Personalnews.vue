@@ -133,7 +133,8 @@ export default {
       this.req_signature(),
       this.req_address(),
       this.req_gender(),
-      this.req_birthday();
+      this.req_birthday(),
+      this.req_email();
   },
   watch: {
     menu(val) {
@@ -202,7 +203,7 @@ export default {
       if (data.error_code == 200) {
         alert("昵称修改成功\n");
         this.req_name();
-      } else{
+      } else {
         alert(data.message);
       }
     },
@@ -247,7 +248,7 @@ export default {
         this.req_signature();
       } else {
         alert(data.message);
-      } 
+      }
     },
     //获取地址
     req_address: function () {
@@ -288,7 +289,7 @@ export default {
       if (data.error_code == 200) {
         alert("签名地址成功\n");
         this.req_address();
-      } else{
+      } else {
         alert(data.message);
       }
     },
@@ -376,6 +377,27 @@ export default {
         this.req_gender();
       } else {
         alert(data.message);
+      }
+    },
+    //获取邮箱
+    req_email: function () {
+      var formdata = new FormData();
+      formdata.append("user", this.user);
+      this.axios
+        .post("/user/getEmail", formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((response) => this.ack_email(response))
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    ack_email: function (response) {
+      var data = response.data;
+      if (data.error_code == 200) {
+        this.email = data.data;
+      } else {
+        this.eamil = data.data;
       }
     },
   },

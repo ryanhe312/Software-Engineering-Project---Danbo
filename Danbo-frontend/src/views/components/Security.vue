@@ -105,7 +105,8 @@ export default {
     },
   },
   created() {
-    this.req_user();
+    this.req_user(),
+    this.req_email();
   },
   methods: {
     //获取用户名
@@ -125,6 +126,27 @@ export default {
         this.user = data.data;
       } else {
         alert("用户名不存在\n");
+      }
+    },
+    //获取邮箱
+    req_email: function () {
+      var formdata = new FormData();
+      formdata.append("user", this.user);
+      this.axios
+        .post("/user/getEmail", formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((response) => this.ack_email(response))
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    ack_email: function (response) {
+      var data = response.data;
+      if (data.error_code == 200) {
+        this.email = data.data;
+      } else {
+        this.eamil = data.data;
       }
     },
     //发送验证码
