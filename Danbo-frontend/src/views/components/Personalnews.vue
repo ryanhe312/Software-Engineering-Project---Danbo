@@ -127,14 +127,14 @@ export default {
     date: "",
     menu: false,
   }),
-  created() {
-    this.req_user(),
-      this.req_name(),
-      this.req_signature(),
-      this.req_address(),
-      this.req_gender(),
-      this.req_birthday(),
-      this.req_email();
+  async mounted() {
+    await this.req_user();
+      this.req_name();
+      this.req_signature();
+      this.req_address();
+      this.req_gender();
+      this.req_birthday();
+     // this.req_email();
   },
   watch: {
     menu(val) {
@@ -146,8 +146,8 @@ export default {
       this.$refs.menu.save(date);
     },
     //获取用户名
-    req_user: function () {
-      this.axios
+    async req_user() {
+      await this.axios
         .post("/user/getUsername", {
           headers: { "Content-Type": "multipart/form-data" },
         })
@@ -160,14 +160,16 @@ export default {
       var data = response.data;
       if (data.error_code == 200) {
         this.user = data.data;
-      } else {
-        alert(data.message);
+      } 
+      else {
+        alert("未登录！");
+        this.$router.push("/");
       }
     },
     //获取昵称
     req_name: function () {
       var formdata = new FormData();
-      formdata.append("user", this.user);
+      formdata.append("username", this.user);
       this.axios
         .post("/user/getNickname", formdata, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -188,7 +190,7 @@ export default {
     //修改昵称
     req_modifyName: function () {
       var formdata = new FormData();
-      formdata.append("name", this.name);
+      formdata.append("nickname", this.name);
       this.axios
         .post("/user/modifyNickname", formdata, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -210,7 +212,7 @@ export default {
     //获取个性签名
     req_signature: function () {
       var formdata = new FormData();
-      formdata.append("user", this.user);
+      formdata.append("username", this.user);
       this.axios
         .post("/user/getSignature", formdata, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -253,7 +255,7 @@ export default {
     //获取地址
     req_address: function () {
       var formdata = new FormData();
-      formdata.append("user", this.user);
+      formdata.append("username", this.user);
       this.axios
         .post("/user/getAddress", formdata, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -275,6 +277,7 @@ export default {
     req_modifyAddress: function () {
       var formdata = new FormData();
       formdata.append("address", this.address);
+      alert(this.address);
       this.axios
         .post("/user/modifyAddress", formdata, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -296,7 +299,7 @@ export default {
     //获取生日
     req_birthday: function () {
       var formdata = new FormData();
-      formdata.append("user", this.user);
+      formdata.append("username", this.user);
       this.axios
         .post("/user/getBirthday", formdata, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -339,7 +342,7 @@ export default {
     //获取性别
     req_gender: function () {
       var formdata = new FormData();
-      formdata.append("user", this.user);
+      formdata.append("username", this.user);
       this.axios
         .post("/user/getGender", formdata, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -380,9 +383,9 @@ export default {
       }
     },
     //获取邮箱
-    req_email: function () {
+    /*req_email: function () {
       var formdata = new FormData();
-      formdata.append("user", this.user);
+      formdata.append("username", this.user);
       this.axios
         .post("/user/getEmail", formdata, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -399,7 +402,7 @@ export default {
       } else {
         this.eamil = data.data;
       }
-    },
+    },*/
   },
 };
 </script>

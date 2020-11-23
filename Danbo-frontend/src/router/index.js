@@ -24,15 +24,15 @@ const routes = [
      name:'Follow',
      component: () => import("../views/Follow/Follow.vue")
    },
-  /* {
+   {
     path:'/personal',
     name:'personal',
     component: () => import("../views/Personal/Personal.vue")
-  },*/
+  },
   {
     path:'/',
     name:'otherPer',
-    component: () => import("../views/Personal/Personal.vue")
+    component: () => import("../views/OtherPer/OtherPer.vue")
   },
 ]
 

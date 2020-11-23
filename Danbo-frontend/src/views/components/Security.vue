@@ -20,7 +20,7 @@
         <v-window v-model="step">
           <v-window-item :value="1">
             <v-card-text>
-              <v-text-field label="Email" v-model="mail"></v-text-field>
+              <v-text-field label="Email" v-model="email"></v-text-field>
               <span class="caption grey--text text--darken-1">
                 This is the email you used to login to your Danbo account
               </span>
@@ -81,7 +81,7 @@
 <script>
 export default {
   data: () => ({
-    step: 2,
+    step: 1,
     email: "",
     user: "",
     codes: "",
@@ -104,14 +104,14 @@ export default {
       }
     },
   },
-  created() {
-    this.req_user(),
-    this.req_email();
+  async mounted() {
+    await this.req_user();
+    //this.req_email();
   },
   methods: {
     //获取用户名
-    req_user: function () {
-      this.axios
+    async req_user () {
+      await this.axios
         .post("/user/getUsername", {
           headers: { "Content-Type": "multipart/form-data" },
         })
@@ -124,11 +124,13 @@ export default {
       var data = response.data;
       if (data.error_code == 200) {
         this.user = data.data;
-      } else {
-        alert("用户名不存在\n");
+      } 
+      else {
+        alert("未登录！");
+        this.$router.push("/");
       }
     },
-    //获取邮箱
+    /*//获取邮箱
     req_email: function () {
       var formdata = new FormData();
       formdata.append("user", this.user);
@@ -148,7 +150,7 @@ export default {
       } else {
         this.eamil = data.data;
       }
-    },
+    },*/
     //发送验证码
     req_verify: function () {
       var formdata = new FormData();
@@ -167,7 +169,7 @@ export default {
       if (data.error_code == 200) {
         this.step++;
       } else {
-        alert("发送验证码失败\n");
+        alert("发送验证码失败\n"+data.error_code);
       }
     },
     //修改密码

@@ -8,9 +8,7 @@
             <v-list>
               <v-list-item>
                 <v-list-item-avatar>
-                  <v-img
-                    :src="images"
-                  ></v-img>
+                  <v-img :src="images"></v-img>
                 </v-list-item-avatar>
               </v-list-item>
 
@@ -36,8 +34,14 @@
                 </v-list-item>
               </v-list-item-group>
             </v-list>
-             <v-card elevation="0" class="mt-10" height="10"> </v-card>
-            <v-btn class="mx-16" outlined center color="indigo" @click="req_quit">
+            <v-card elevation="0" class="mt-10" height="10"> </v-card>
+            <v-btn
+              class="mx-16"
+              outlined
+              center
+              color="indigo"
+              @click="req_quit"
+            >
               Sign Out
             </v-btn>
           </v-navigation-drawer>
@@ -78,7 +82,7 @@ export default {
     selectedItem: 0,
     name: "",
     user: "",
-    images:"",
+    images: "",
     mail: "17307130181@fudan.edu.cn",
     items: [
       { text: "Personal information", icon: "mdi-account" },
@@ -90,13 +94,15 @@ export default {
       //{ text: "Sign out", icon: "mdi-arrow-down-bold-circle" },
     ],
   }),
-  created() {
-    this.req_user(), this.req_name();
+  async mounted() {
+    await this.req_user();
+    this.req_name();
+    this.req_profile();
   },
   methods: {
     //获取用户名
-    req_user: function () {
-      this.axios
+    async req_user() {
+      await this.axios
         .post("/user/getUsername", {
           headers: { "Content-Type": "multipart/form-data" },
         })
@@ -109,12 +115,15 @@ export default {
       var data = response.data;
       if (data.error_code == 200) {
         this.user = data.data;
+      } else {
+       // alert("未登录！");
+        this.$router.push("/");
       }
     },
     //获取昵称
     req_name: function () {
       var formdata = new FormData();
-      formdata.append("user", this.user);
+      formdata.append("username", this.user);
       this.axios
         .post("/user/getNickname", formdata, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -126,7 +135,7 @@ export default {
     },
     ack_name: function (response) {
       var data = response.data;
-      if (data.error_code == 200) {
+        if (data.error_code == 200) {
         this.name = data.data;
       } else {
         this.name = data.data;
@@ -152,8 +161,8 @@ export default {
       }
     },
     //登出
-    req_quit: function () {
-      this.axios
+    async req_quit () {
+      await this.axios
         .post("/user/logout", {
           headers: { "Content-Type": "multipart/form-data" },
         })
@@ -169,6 +178,7 @@ export default {
         this.$router.push("/");
       } else {
         alert("当前未登录\n");
+        this.$router.push("/");
       }
     },
   },

@@ -41,13 +41,14 @@ export default {
         "Avatar size should be less than 2 MB!",
     ],
   }),
-  created() {
-    this.req_user(), this.req_profile();
+  async mounted() {
+    await this.req_user();
+    this.req_profile();
   },
   methods: {
     //获取用户名
-    req_user: function () {
-      this.axios
+    async req_user () {
+      await this.axios
         .post("/user/getUsername", {
           headers: { "Content-Type": "multipart/form-data" },
         })
@@ -61,7 +62,8 @@ export default {
       if (data.error_code == 200) {
         this.user = data.data;
       } else {
-        alert("用户名不存在\n");
+        alert("未登录！");
+        this.$router.push("/");
       }
     },
     //获取头像

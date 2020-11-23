@@ -25,7 +25,7 @@
             </v-list-item-avatar>
     </v-list-item>
 
-    <v-card-actions>
+    <v-card>
         <v-btn
       text
       color="primary"
@@ -38,7 +38,7 @@
     >
     <router-link  to="/follow">Followers</router-link>
     </v-btn>
-    </v-card-actions>
+    </v-card>
   </v-card>
 </template>
 
