@@ -9,14 +9,14 @@
               <v-list-item>
                 <v-list-item-avatar>
                   <v-img
-                    :src="images"
+                    :src="profile"
                   ></v-img>
                 </v-list-item-avatar>
               </v-list-item>
 
               <v-list-item link>
                 <v-list-item-content>
-                  <v-list-item-title class="title" v-text="name">
+                  <v-list-item-title class="title" v-text="nickname">
                   </v-list-item-title>
                   <v-list-item-subtitle v-text="mail"></v-list-item-subtitle>
                 </v-list-item-content>
@@ -76,10 +76,10 @@ export default {
 
   data: () => ({
     selectedItem: 0,
-    name: "",
-    user: "",
-    images:"",
-    mail: "17307130181@fudan.edu.cn",
+    nickname: "",
+    username: "",
+    profile:"",
+    mail: "",
     items: [
       { text: "Personal information", icon: "mdi-account" },
       { text: "Profile photo", icon: "mdi-widgets" },
@@ -91,66 +91,11 @@ export default {
     ],
   }),
   created() {
-    this.req_user(), this.req_name();
+    // this.$parent.req_all();
   },
   methods: {
-    //获取用户名
-    req_user: function () {
-      this.axios
-        .post("/user/getUsername", {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((response) => this.ack_user(response))
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    ack_user: function (response) {
-      var data = response.data;
-      if (data.error_code == 200) {
-        this.user = data.data;
-      }
-    },
-    //获取昵称
-    req_name: function () {
-      var formdata = new FormData();
-      formdata.append("user", this.user);
-      this.axios
-        .post("/user/getNickname", formdata, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((response) => this.ack_name(response))
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    ack_name: function (response) {
-      var data = response.data;
-      if (data.error_code == 200) {
-        this.name = data.data;
-      } else {
-        this.name = data.data;
-      }
-    },
-    //获取头像
-    req_profile: function () {
-      var formdata = new FormData();
-      formdata.append("user", this.user);
-      this.axios
-        .post("/user/getProfile", formdata, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((response) => this.ack_profile(response))
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    ack_profile: function (response) {
-      var data = response.data;
-      if (data.error_code == 200) {
-        this.images = data.data;
-      }
-    },
+    
+
     //登出
     req_quit: function () {
       this.axios

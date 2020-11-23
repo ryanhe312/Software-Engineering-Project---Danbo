@@ -22,6 +22,16 @@ export default {
 
   data: () => ({
 
+
+
   }),
+
+  created(){
+    this.req_all();
+  },
+  
+  methods:{
+    
+  },
 };
 </script>

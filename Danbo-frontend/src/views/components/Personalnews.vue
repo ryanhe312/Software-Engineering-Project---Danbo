@@ -30,7 +30,7 @@
         </v-card>
       </v-col>
       <v-col cols="2" sm="7" offset-sm="0">
-        <v-text-field solo dense v-model="name"></v-text-field>
+        <v-text-field solo dense v-model="nickname"></v-text-field>
         <v-text-field
           class="mt-1"
           v-text="mail"
@@ -118,23 +118,24 @@
 <script>
 export default {
   data: () => ({
-    user: "",
-    name: "",
+    username: "",
+    nickname: "",
     signature: "",
     address: "",
     radios: "",
-    mail: "17307130181@fudan.edu.cn",
+    mail: "",
     date: "",
     menu: false,
   }),
   created() {
-    this.req_user(),
-      this.req_name(),
-      this.req_signature(),
-      this.req_address(),
-      this.req_gender(),
-      this.req_birthday(),
-      this.req_email();
+    // this.$parent.req_all();
+    // this.req_user(),
+    //   this.req_name(),
+    //   this.req_signature(),
+    //   this.req_address(),
+    //   this.req_gender(),
+    //   this.req_birthday(),
+    //   this.req_email();
   },
   watch: {
     menu(val) {
