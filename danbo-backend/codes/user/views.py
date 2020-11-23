@@ -256,7 +256,8 @@ def modify_signature(request):
             if len(signature)>30:
                 content = {"error_code": 433, "message": "签名长度应小于30个字符", "data": None}
             else:
-                user.update(signature=signature)
+                user.signature=signature
+                user.save()
                 content = {"error_code": 200, "message": "签名修改成功", "data": None}
     return HttpResponse(json.dumps(content))
 
@@ -276,7 +277,8 @@ def modify_nickname(request):
             if len(nickname)>20 or len(nickname)==0:
                 content = {"error_code": 433, "message": "昵称长度应小于20个字符，且不能为空", "data": None}
             else:
-                user.update(nickname=nickname)
+                user.nickname=nickname
+                user.save()
                 content = {"error_code": 200, "message": "昵称修改成功", "data": None}
     return HttpResponse(json.dumps(content))
 
@@ -296,7 +298,8 @@ def modify_address(request):
             if len(address)>40:
                 content = {"error_code": 433, "message": "地址长度应小于40个字符", "data": None}
             else:
-                user.update(address=address)
+                user.address=address
+                user.save()
                 content = {"error_code": 200, "message": "地址修改成功", "data": None}
     return HttpResponse(json.dumps(content))
 
@@ -317,7 +320,8 @@ def modify_birthday(request):
             if len(birthday)>40:
                 content = {"error_code": 433, "message": "生日长度应小于40个字符", "data": None}
             else:
-                user.update(birthday=birthday)
+                user.birthday=birthday
+                user.save()
                 content = {"error_code": 200, "message": "生日修改成功", "data": None}
     return HttpResponse(json.dumps(content))
 
@@ -338,7 +342,8 @@ def modify_gender(request):
             if gender!='男' and gender!='女' and gender != '保密':
                 content = {"error_code": 433, "message": "性别错误", "data": None}
             else:
-                user.update(gender=gender)
+                user.gender=gender
+                user.save()
                 content = {"error_code": 200, "message": "性别修改成功", "data": None}
     return HttpResponse(json.dumps(content))
 
