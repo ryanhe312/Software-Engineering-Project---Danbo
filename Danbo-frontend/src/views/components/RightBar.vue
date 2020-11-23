@@ -49,11 +49,35 @@ export default {
   components: {},
 
   data: () => ({
+    username:"",
+    signature:"",
+
     }),
 
   computed: {},
 
-  methods: {},
+  methods: {
+    //TODO: Request for head,username,signature
+    //request for username
+    req_username: function () {
+      if (this.username == "" || this.password == "") {
+        alert("请输入用户名和密码！");
+      } else {
+        var formdata = new FormData();	//定义formdata
+        formdata.append("username", this.username);	//将请求数据加入formdata中
+        formdata.append("password", this.password);
+        this.axios
+          .post("/user/login", formdata, {
+            headers: { "Content-Type": "multipart/form-data" },	//由于后端API对类型有要求，所以请求时一定要设置content-type为multipart/form-data
+          })
+          .then((response) => this.ack_login(response)) //使用methods中的函数处理响应
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    },
+
+  },
 };
 </script>
 
