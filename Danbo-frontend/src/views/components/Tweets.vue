@@ -119,6 +119,7 @@ export default {
       console.log(this.Share_text);
       await this.request_data("allBlogs");
       this.tweets = global.information["allBlogs"];
+      
       console.log(this.tweets);
     },
 
