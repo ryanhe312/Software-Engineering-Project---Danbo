@@ -273,6 +273,7 @@ def modify_nickname(request):
         if user is None:
             content = {"error_code": 431, "message": "用户名不存在或当前未登录", "data": None}
         else:
+            # print(request.POST)
             nickname = request.POST.get('nickname')
             if len(nickname)>20 or len(nickname)==0:
                 content = {"error_code": 433, "message": "昵称长度应小于20个字符，且不能为空", "data": None}

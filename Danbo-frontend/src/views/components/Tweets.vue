@@ -13,11 +13,14 @@
             <v-textarea
               label="Share Your Feelings!"
               outlined
-            ></v-textarea>
+              v-model="Share_text"
+            >
+            
+            </v-textarea>
 
             <v-card-actions>
               <v-row justify="end">
-                <v-btn tile color="success">
+                <v-btn tile color="success" @click="release()">
                   <v-icon left>
                     mdi-share
                   </v-icon>
@@ -30,13 +33,14 @@
       </v-container>
     </v-card>
 
+<!-- All the blogs! -->
       <v-card
         elevation="1"
         class="mx-auto mb-2"
         outlined
         color="white"
         max-width="1200"
-        v-for="i in list" :key="i"
+        v-for="tweet in tweets" :key="tweet"
       >
       <v-container fluid>
         <v-row justify="center">
@@ -51,13 +55,12 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>Ning</v-list-item-title>
+            <v-list-item-title>{{tweet["origin_user"]}}</v-list-item-title>
           </v-list-item-content>
         </v-card-title>
 
         <v-card-text class="bold">
-          Turns out semicolon-less style is easier and safer in TS because most
-          gotcha edge cases are type invalid as well.fdafasfsdafDsafdsfasd
+          {{tweet["origin_content"]}}
         </v-card-text>
 
         <v-card-actions>
@@ -91,17 +94,31 @@
 </template>
 
 <script>
+import global from "../components/global"
+
 export default {
   name: "tweets",
 
   components: {},
 
   data: () => ({
-    list: [1,2,3,4,5],
+    tweets:[],
+    Share_text:"",
   }),
 
   computed: {},
 
-  methods: {},
+  mounted() {
+    this.request_data("allBlogs");
+  },
+
+  methods: {
+    get_tweets: function(){
+      this.tweets = global.information["allBlogs"]
+    },
+    release: function(){
+      this.release_blog(this.Share_text);
+    }
+  },
 };
 </script>

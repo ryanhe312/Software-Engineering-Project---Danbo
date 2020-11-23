@@ -45,11 +45,17 @@ export default {
   }),
 
   mounted() {
-    this.req_all();
+    this.wait(2)
+    this.username = global.information["username"];
+    // console.log(this.username)
+  },
+
+  beforeCreate(){
+    
   },
 
   created() {
-    
+    // this.req_all();
   },
 
   computed: {},

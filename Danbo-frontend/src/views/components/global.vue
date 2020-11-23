@@ -10,6 +10,7 @@ const information = {
     "signature":"",
     "profile":"",
     "gender":"",
+    "allBlogs":"",
 }
 
 // lookup table for api
@@ -22,13 +23,23 @@ const request_api = {
     "signature":["/user/getSignature",["username"]],
     "profile":["/user/getProfile",["username"]],
     "gender":["/user/getGender",["username"]],
-
+    "allBlogs":["/blog/refreshBlogs",[]],
 }
 
+const modify_api = {
+    "nickname":["/user/modifyNickname",[]],
+    "address":["/user/modifyAddress",[]],
+    "birthday":["/user/modifyBirthday",[]],
+    "gender":["/user/modifyGender",[]],
+    "profile":["/user/modifyProfile",[]],
+    "signature":["/user/modifySignature",[]],
+    "password":["/user/modifyPassword",[]],
+}
 
 export default
 {
     information,
     request_api,
+    modify_api,
 }
 </script>
