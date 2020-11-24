@@ -6,7 +6,7 @@ const DEBUG = true;
 // Public API to pack needed data
 function generate_data(required_list) {
   // generate all the required data
-  // required_list: list(str)
+  // required_list: list(str) ["username"]
   // console.log("Entering generate_data",required_list)
   var required_data = new FormData();
   for (var i = 0; i < required_list.length; i++) {
@@ -20,7 +20,7 @@ function generate_data(required_list) {
 // Public API to request everything
 async function request_data(needed_data) {
   // find required data to post
-  // needed_data: str
+  // needed_data: str "nickname"
 
   //   console.log("Entering request_data")
   var request = global.request_api[needed_data];
