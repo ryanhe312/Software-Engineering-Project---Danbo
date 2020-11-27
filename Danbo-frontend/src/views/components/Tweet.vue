@@ -1,65 +1,74 @@
 <template>
-    <div>
-    <!-- All the blogs! -->
-    <v-card
-      elevation="1"
-      class="mx-auto mb-2"
-      outlined
-      color="white"
-      max-width="1200"
-      v-for="tweet in tweets"
-      :key="tweet"
-    >
-      <v-container fluid>
-        <v-row justify="center">
-          <v-col cols="12">
-            <v-card-title>
-              <v-list-item-avatar color="grey darken-2">
+  <div>
+    <v-container fluid>
+      <v-row justify="center">
+        <v-col cols="12">
+          <v-card-title>
+            <v-list-item-avatar color="grey darken-2">
+              <v-img
+                class="elevation-6"
+                alt=""
+                src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+              ></v-img>
+            </v-list-item-avatar>
+
+            <v-list-item-content>
+              <v-list-item-title>{{ tweet["origin_user"] }}</v-list-item-title>
+            </v-list-item-content>
+          </v-card-title>
+
+          <v-card-text class="bold">
+            {{ tweet["origin_content"] }}
+          </v-card-text>
+
+          <v-card class="mx-auto" elevation="0" max-width="500">
+            <v-row>
+              <v-col
+                v-for="(img, i) in tweet[`pictures`]"
+                :key="i"
+                class="d-flex child-flex"
+                cols="4"
+              >
                 <v-img
-                  class="elevation-6"
-                  alt=""
-                  src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-                ></v-img>
-              </v-list-item-avatar>
+                  :src="complete_image_url(img)"
+                  aspect-ratio="1"
+                  class="grey lighten-2"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+            </v-row>
+          </v-card>
 
-              <v-list-item-content>
-                <v-list-item-title>{{
-                  tweet["origin_user"]
-                }}</v-list-item-title>
-              </v-list-item-content>
-            </v-card-title>
+          <v-card-actions>
+            <v-list-item class="grow">
+              <v-row align="center" justify="end">
+                <v-icon class="mr-1"> mdi-heart </v-icon>
+                <span class="subheading mr-2">256</span>
 
-            <v-card-text class="bold">
-              {{ tweet["origin_content"] }}
-            </v-card-text>
+                <v-icon class="mr-1"> mdi-comment </v-icon>
+                <span class="subheading mr-2">10</span>
 
-            <v-card-actions>
-              <v-list-item class="grow">
-                <v-row align="center" justify="end">
-                  <v-icon class="mr-1">
-                    mdi-heart
-                  </v-icon>
-                  <span class="subheading mr-2">256</span>
-
-                  <v-icon class="mr-1">
-                    mdi-comment
-                  </v-icon>
-                  <span class="subheading mr-2">10</span>
-
-                  <v-icon class="mr-1">
-                    mdi-share-variant
-                  </v-icon>
-                  <span class="subheading">45</span>
-                </v-row>
-              </v-list-item>
-            </v-card-actions>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-card>
-    <!-- </v-row> -->
-
-    </div>
+                <v-icon class="mr-1"> mdi-share-variant </v-icon>
+                <span class="subheading">45</span>
+              </v-row>
+            </v-list-item>
+          </v-card-actions>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 
@@ -67,44 +76,27 @@
 import global from "../components/global";
 
 export default {
-  name: "tweets",
-
+  name: "tweet",
+  props: ["tweet_content", "tweet_id"],
   components: {},
 
-  data: () => ({
-    tweets: [],
-  }),
+  data() {
+    return {
+      tweet: this.tweet_content,
+    };
+  },
 
   computed: {},
 
   mounted() {
-    this.get_tweets();
+    console.log(this.tweet_id, this.tweet);
   },
 
   methods: {
-    get_tweets: async function() {
-      console.log(this.Share_text);
-      await this.request_data("allBlogs");
-      this.tweets = global.information["allBlogs"];
-      
-      console.log(this.tweets);
-    },
-
-    release: function() {
-      var formdata = new FormData();
-      formdata.append("content", this.Share_text);
-
-      var api = "/blog/releaseBlog";
-      console.log(formdata.get("content"));
-      //request needed data
-      this.axios.post(api, formdata).then((response) => {
-        var data = response.data;
-        if (data.error_code == 200)
-          // console.log(data.data),
-          alert(data.message);
-      });
-      this.Share_text = "";
-      this.get_tweets();
+    complete_image_url: function (rel_url) {
+      var url = "http://127.0.0.1:8090/media/" + rel_url;
+      console.log(url);
+      return url;
     },
   },
 };
