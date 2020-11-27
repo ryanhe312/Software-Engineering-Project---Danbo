@@ -59,7 +59,7 @@ export default {
 
   methods: {
     change: function(){
-      // window.location.reload()
+      window.location.reload()
       // this.reload();
     },
   },
