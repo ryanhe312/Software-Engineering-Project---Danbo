@@ -127,7 +127,6 @@ export default {
     signature: global.information["signature"],
     address: global.information["address"],
     email: global.information["email"],
-    //birthday:"",
     birthday: global.information["birthday"],
     gender: String(global.information["gender"]),
     menu: false,

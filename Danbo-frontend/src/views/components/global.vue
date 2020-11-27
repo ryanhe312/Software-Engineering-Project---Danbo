@@ -24,6 +24,7 @@ const request_api = {
     "profile":["/user/getProfile",["username"]],
     "gender":["/user/getGender",["username"]],
     "allBlogs":["/blog/refreshBlogs",[]],
+    "followers":["/user/getFollowers",["username"]],
 }
 
 const modify_api = {

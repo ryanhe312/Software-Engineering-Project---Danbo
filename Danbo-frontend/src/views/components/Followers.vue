@@ -30,10 +30,12 @@
 </template>
 
 <script>
+import global from "../components/global"
 export default {
   name: "Followers",
   components: {},
   data: () => ({
+    followers:global.information["followers"],
     items: [
       { header: "Following" },
       {
@@ -115,5 +117,11 @@ export default {
       },
     ],
   }),
+  mounted: async function() {
+    await this.req_all();
+    await this.req_all_follower();
+    this.username = global.information["username"];
+    // console.log(this.username)
+  },
 };
 </script>

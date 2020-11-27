@@ -40,8 +40,7 @@ export default {
 
   data: () => ({
     username: global.information["username"],
-    // this.GLOBAL.information["username"],
-    signature: "",
+    signature: global.information["signature"],
   }),
 
   mounted: async function() {

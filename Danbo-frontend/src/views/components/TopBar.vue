@@ -19,7 +19,7 @@
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
       <v-toolbar-title>
-        <router-link  to="/">Danbo</router-link>
+        <router-link  to="/home">Danbo</router-link>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -67,6 +67,10 @@ export default {
 
 <style scoped>
 .router-link-active {    
+  text-decoration: none;
+  color:rgb(255, 255, 255);
+}
+.router-link {    
   text-decoration: none;
   color:rgb(255, 255, 255);
 }

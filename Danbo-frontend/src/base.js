@@ -33,7 +33,7 @@ async function request_data(needed_data) {
   await axios.post(api, required_data).then((response) => {
     var data = response.data;
     if (data.error_code == 200)
-    //   console.log(needed_data, data.data),
+      console.log(needed_data, data.data),
         global.information[needed_data] = data.data;
   });
 }
@@ -64,10 +64,16 @@ async function req_all() {
   await request_data("username"); // everything after username
   request_data("nickname");
 //   request_data("profile");
+  request_data("email");
   request_data("signature");
   request_data("address");
   request_data("gender");
   request_data("birthday");
+}
+
+async function req_all_follower() {
+  await request_data("username"); // everything after username
+  request_data("followers");
 }
 
 
@@ -83,5 +89,6 @@ export default {
       generate_data(required_data);
     Vue.prototype.modify_data = (needed_data, changed_data) =>
       modify_data(needed_data, changed_data);
+    Vue.prototype.req_all_follower = () => req_all_follower();
   },
 };
