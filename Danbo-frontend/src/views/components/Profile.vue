@@ -7,7 +7,7 @@
     <v-divider></v-divider>
     <div class="text-center">
       <v-avatar class="mt-16" size="128">
-        <img :src="images" />
+        <img :src="profile" />
       </v-avatar>
     </div>
     <div class="mt-5 center">
@@ -23,16 +23,18 @@
       </v-card>
     </div>
     <div class="text-center">
-      <v-btn class="mt-14" rounded color="primary" dark> Charge </v-btn>
+      <v-btn class="mt-14" rounded color="primary" dark @click="req_modifyProfile"> Charge </v-btn>
     </div>
   </v-card>
 </template>
 
 <script>
+import global from "../components/global"
 export default {
   data: () => ({
-    user: "",
-    images: "https://cdn.vuetifyjs.com/images/john.jpg",
+    user: global.information["username"],
+    //profile:require("../../../../danbo.png"),
+    profile:"http://127.0.0.1:8000/media/"+global.information["profile"],
     value:"",
     rules: [
       (value) =>
@@ -42,51 +44,12 @@ export default {
     ],
   }),
   created() {
-    this.req_user(), this.req_profile();
   },
   methods: {
-    //获取用户名
-    req_user: function () {
-      this.axios
-        .post("/user/getUsername", {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((response) => this.ack_user(response))
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    ack_user: function (response) {
-      var data = response.data;
-      if (data.error_code == 200) {
-        this.user = data.data;
-      } else {
-        alert("用户名不存在\n");
-      }
-    },
-    //获取头像
-    req_profile: function () {
-      var formdata = new FormData();
-      formdata.append("user", this.user);
-      this.axios
-        .post("/user/getProfile", formdata, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((response) => this.ack_profile(response))
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    ack_profile: function (response) {
-      var data = response.data;
-      if (data.error_code == 200) {
-        this.images = data.data;
-      }
-    },
     //修改头像
     req_modifyProfile: function () {
        var formdata = new FormData();
-      formdata.append("file", this.value);
+      formdata.append("profile", this.value);
       this.axios
         .post("/user/modifyProfile",formdata, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -100,7 +63,6 @@ export default {
       var data = response.data;
       if (data.error_code == 200) {
         alert(data.message);
-        this.req_profile();
       } else {
         alert(data.message);
       }

@@ -20,7 +20,7 @@
         <v-window v-model="step">
           <v-window-item :value="1">
             <v-card-text>
-              <v-text-field label="Email" v-model="mail"></v-text-field>
+              <v-text-field label="Email" v-model="email"></v-text-field>
               <span class="caption grey--text text--darken-1">
                 This is the email you used to login to your Danbo account
               </span>
@@ -79,11 +79,12 @@
 </template>
 
 <script>
+import global from "../components/global"
 export default {
   data: () => ({
-    step: 2,
-    email: "",
-    user: "",
+    step: 1,
+    username: global.information["username"],
+    email: global.information["email"],
     codes: "",
     password: "",
     repassword: "",
@@ -105,50 +106,8 @@ export default {
     },
   },
   created() {
-    this.req_user(),
-    this.req_email();
   },
   methods: {
-    //获取用户名
-    req_user: function () {
-      this.axios
-        .post("/user/getUsername", {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((response) => this.ack_user(response))
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    ack_user: function (response) {
-      var data = response.data;
-      if (data.error_code == 200) {
-        this.user = data.data;
-      } else {
-        alert("用户名不存在\n");
-      }
-    },
-    //获取邮箱
-    req_email: function () {
-      var formdata = new FormData();
-      formdata.append("user", this.user);
-      this.axios
-        .post("/user/getEmail", formdata, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((response) => this.ack_email(response))
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    ack_email: function (response) {
-      var data = response.data;
-      if (data.error_code == 200) {
-        this.email = data.data;
-      } else {
-        this.eamil = data.data;
-      }
-    },
     //发送验证码
     req_verify: function () {
       var formdata = new FormData();
@@ -173,7 +132,7 @@ export default {
     //修改密码
     req_modify: function () {
       var formdata = new FormData();
-      formdata.append("user", this.user);
+      formdata.append("username", this.username);
       formdata.append("password", this.password);
       formdata.append("r_password", this.repassword);
       formdata.append("email", this.email);

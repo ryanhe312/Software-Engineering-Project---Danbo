@@ -47,12 +47,12 @@
           v-model="signature"
         ></v-textarea>
         <v-text-field solo dense v-model="address" class="mt-2"></v-text-field>
-        <v-radio-group class="mt-3" v-model="radios" row>
-          <v-radio label="Male" value="Male"></v-radio>
-          <v-radio label="Female" value="Female"></v-radio>
-          <v-radio label="Secret" value="Secret"></v-radio>
+        <v-radio-group class="mt-3" v-model="gender" row>
+          <v-radio label="Male" value="0"></v-radio>
+          <v-radio label="Female" value="1"></v-radio>
+          <v-radio label="Secret" value="2"></v-radio>
         </v-radio-group>
-        <v-menu
+         <v-menu
           ref="menu"
           v-model="menu"
           :close-on-content-click="false"
@@ -75,6 +75,7 @@
             ref="picker"
             v-model="birthday"
             :max="new Date().toISOString().substr(0, 10)"
+            value-format="YY-MM-DD"
             min="1950-01-01"
             @change="save"
           ></v-date-picker>
@@ -125,10 +126,10 @@ export default {
     nickname: global.information["nickname"],
     signature: global.information["signature"],
     address: global.information["address"],
-    radios: "",
     email: global.information["email"],
+    //birthday:"",
     birthday: global.information["birthday"],
-    gender: global.information["gender"],
+    gender: String(global.information["gender"]),
     menu: false,
   }),
   created() {
@@ -139,8 +140,8 @@ export default {
     },
   },
   methods: {
-    save(date) {
-      this.$refs.menu.save(date);
+     save(birthday) {
+      this.$refs.menu.save(birthday);
     },
 
     modify(needed_data){

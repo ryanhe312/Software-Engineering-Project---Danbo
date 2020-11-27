@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import global from "../components/global"
 export default {
   components: {
     Personalnews: () => import("../components/Personalnews"),
@@ -76,10 +77,10 @@ export default {
 
   data: () => ({
     selectedItem: 0,
-    nickname: "",
-    username: "",
-    profile:"",
-    mail: "",
+    username: global.information["username"],
+    nickname: global.information["nickname"],
+    mail: global.information["email"],
+    profile:"http://127.0.0.1:8000/media/"+global.information["profile"],
     items: [
       { text: "Personal information", icon: "mdi-account" },
       { text: "Profile photo", icon: "mdi-widgets" },
@@ -91,11 +92,9 @@ export default {
     ],
   }),
   created() {
-    // this.$parent.req_all();
+     //this.$parent.req_all();
   },
   methods: {
-    
-
     //登出
     req_quit: function () {
       this.axios
@@ -109,11 +108,13 @@ export default {
     },
     ack_quit: function (response) {
       var data = response.data;
+      alert(data.error_code);
       if (data.error_code == 200) {
         alert("成功退出登录\n");
         this.$router.push("/");
       } else {
         alert("当前未登录\n");
+        this.$router.push("/");
       }
     },
   },
