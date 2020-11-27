@@ -125,6 +125,8 @@ export default {
           // console.log(data.data),
           alert(data.message);
         this.Share_text = "";
+        this.images = [];
+        this.$emit('refresh_content');
       });
     },
   },
