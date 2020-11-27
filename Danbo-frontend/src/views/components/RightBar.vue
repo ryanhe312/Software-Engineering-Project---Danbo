@@ -18,11 +18,11 @@
     </v-list-item>
 
     <v-card-actions>
-      <v-btn text color="primary">
-        <router-link to="/follow">Following</router-link>
+      <v-btn text color="primary" @click="change">
+        <router-link :to="{path:'/follow',query:{follow_view:true}}"   >Following</router-link>
       </v-btn>
-      <v-btn text color="primary">
-        <router-link to="/follow">Followers</router-link>
+      <v-btn text color="primary" @click="change">
+        <router-link :to="{path:'/follow',query:{follow_view:false}}" >Followers</router-link>
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -46,6 +46,7 @@ export default {
   mounted: async function() {
     await this.req_all();
     this.username = global.information["username"];
+    this.signature = global.information["signature"];
     // console.log(this.username)
   },
 
@@ -57,6 +58,10 @@ export default {
   computed: {},
 
   methods: {
+    change: function(){
+      // window.location.reload()
+      // this.reload();
+    },
   },
 };
 </script>

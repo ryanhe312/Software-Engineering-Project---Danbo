@@ -61,6 +61,8 @@ function modify_data(needed_data, changed_data) {
 
 // request all the needed information for one user
 async function req_all() {
+  if(global.information["login"]==true)
+    return;
   await request_data("username"); // everything after username
   request_data("nickname");
 //   request_data("profile");
@@ -71,10 +73,6 @@ async function req_all() {
   request_data("birthday");
 }
 
-async function req_all_follower() {
-  await request_data("username"); // everything after username
-  request_data("followers");
-}
 
 
 
@@ -89,6 +87,5 @@ export default {
       generate_data(required_data);
     Vue.prototype.modify_data = (needed_data, changed_data) =>
       modify_data(needed_data, changed_data);
-    Vue.prototype.req_all_follower = () => req_all_follower();
   },
 };

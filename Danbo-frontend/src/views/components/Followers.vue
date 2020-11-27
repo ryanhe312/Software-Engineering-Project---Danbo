@@ -3,7 +3,35 @@
     <v-row>
       <v-col cols="12">
         <v-list two-line>
-          <template v-for="(item, index) in items">
+          <template v-for="(value,key,index) in followers">
+            <v-subheader v-if="follow_view=='true' && index==0" :key="index+1000">
+              Following
+            </v-subheader>
+
+            <v-subheader v-else-if="index==0" :key="index+1000">
+              Follower
+            </v-subheader>
+
+            <v-list-item :key="key">
+              <v-list-item-avatar>
+                <img src="https://cdn.vuetifyjs.com/images/lists/1.jpg" />
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title v-html="key">
+                </v-list-item-title>
+                <v-list-item-subtitle
+                  v-html="value.signature"
+                ></v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-divider
+              :key="index"
+              inset=true
+            ></v-divider>
+          </template>
+
+          <!-- <template v-for="(item, index) in items">
             <v-subheader v-if="item.header" :key="item.header">
               {{ item.header }}
             </v-subheader>
@@ -23,10 +51,9 @@
                 ></v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-          </template>
+          </template> -->
         </v-list>
-      </v-col> </v-row
-  ></v-card>
+      </v-col> </v-row></v-card>
 </template>
 
 <script>
@@ -35,7 +62,8 @@ export default {
   name: "Followers",
   components: {},
   data: () => ({
-    followers:global.information["followers"],
+    followers:"",
+    follow_view:false,
     items: [
       { header: "Following" },
       {
@@ -117,11 +145,29 @@ export default {
       },
     ],
   }),
+  created: function(){
+    this.follow_view = this.$route.query.follow_view;
+    console.log("in",this.follow_view)
+  },
   mounted: async function() {
     await this.req_all();
-    await this.req_all_follower();
     this.username = global.information["username"];
-    // console.log(this.username)
+    if(this.follow_view=="true"){
+      await this.request_data("followers");
+      this.followers = global.information["followers"];
+      console.log("follower",this.followers);
+    }
+    else{
+      await this.request_data("followees");
+      this.followers = global.information["followees"];
+      console.log("followee",this.followers);
+    }
+      
   },
+  // mounted: async function(){
+  //   await this.req_all_follower();
+  //   this.followers = global.information["followers"];
+  //   console.log("hello",this.followers);
+  // }
 };
 </script>

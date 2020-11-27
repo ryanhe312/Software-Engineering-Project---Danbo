@@ -11,6 +11,10 @@ const information = {
     "profile":"",
     "gender":"",
     "allBlogs":"",
+    "followers":"",
+    "followees":"",
+    "login":false,
+    // "default_absolute_path":"D:/复旦/计算机课程/大四上/软件工程化开发/project/Software-Engineering-Project---Danbo/danbo-backend/codes/statics/images/profiles",
 }
 
 // lookup table for api
@@ -25,6 +29,7 @@ const request_api = {
     "gender":["/user/getGender",["username"]],
     "allBlogs":["/blog/refreshBlogs",[]],
     "followers":["/user/getFollowers",["username"]],
+    "followees":["/user/getFollowees",["username"]],
 }
 
 const modify_api = {
