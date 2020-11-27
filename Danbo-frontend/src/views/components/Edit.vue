@@ -48,28 +48,35 @@
             </template>
           </v-file-input>
 
-          <v-row>
-            <v-col v-for="(img, i) in images" :key="i" class="d-flex child-flex" cols="4">
-              <v-img
-                :src="img2url(img)"
-                aspect-ratio="1"
-                class="grey lighten-2"
+          <v-card class="mx-auto" elevation="0" max-width="360">
+            <v-row>
+              <v-col
+                v-for="(img, i) in images"
+                :key="i"
+                class="d-flex child-flex"
+                cols="4"
               >
-                <template v-slot:placeholder>
-                  <v-row
-                    class="fill-height ma-0"
-                    align="center"
-                    justify="center"
-                  >
-                    <v-progress-circular
-                      indeterminate
-                      color="grey lighten-5"
-                    ></v-progress-circular>
-                  </v-row>
-                </template>
-              </v-img>
-            </v-col>
-          </v-row>
+                <v-img
+                  :src="img2url(img)"
+                  aspect-ratio="1"
+                  class="grey lighten-2"
+                >
+                  <template v-slot:placeholder>
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-progress-circular
+                        indeterminate
+                        color="grey lighten-5"
+                      ></v-progress-circular>
+                    </v-row>
+                  </template>
+                </v-img>
+              </v-col>
+            </v-row>
+          </v-card>
 
           <v-card-actions>
             <v-row justify="end">
@@ -104,14 +111,14 @@ export default {
   mounted() {},
 
   methods: {
-    img2url: function (img){
+    img2url: function (img) {
       return URL.createObjectURL(img);
     },
 
     release: function () {
       var formdata = new FormData();
       formdata.append("content", this.Share_text);
-      for(let i in this.images){
+      for (let i in this.images) {
         formdata.append("pictures", this.images[i]);
       }
 
@@ -126,7 +133,7 @@ export default {
           alert(data.message);
         this.Share_text = "";
         this.images = [];
-        this.$emit('refresh_content');
+        this.$emit("refresh_content");
       });
     },
   },
