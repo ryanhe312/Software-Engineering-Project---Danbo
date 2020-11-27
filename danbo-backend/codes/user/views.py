@@ -476,7 +476,7 @@ def get_profile_path(request):
         else:
             user = User.objects.get(username=username)
             if Profile.objects.filter(user=user).exists()==False:
-                profile_path = 'default_path'
+                profile_path = 'profiles/default.jpeg'
             else:
                 profile = Profile.objects.get(user=user)
                 profile_path = str(profile.image)
