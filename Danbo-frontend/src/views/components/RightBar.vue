@@ -46,7 +46,7 @@ export default {
   mounted: async function() {
     await this.req_all();
     this.username = global.information["username"];
-    this.signature = global.information["signature"];
+    this.signature = global.information["signature"]+"";
     // console.log(this.username)
   },
 

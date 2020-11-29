@@ -588,6 +588,89 @@ methods: {
 
 由于后端API目前全部要求请求使用*HTTP协议的`multipart/form-data`格式*，所以我们要先定义一个`FormData`对象，将请求报文数据中的键值对加入`FormData`对象中，然后发送请求。
 
+#### 前端数据库
+
+为了前端框架的完整性，因为各个组件同时调用同一个数据很复杂，所以除了后端完整的api获取数据外，前端也建立了临时的公有数据库。我们定义了`global.vue`用于存放所有的共有数据库，所有组件可以通过引用代码：
+
+```js
+import global from "../components/global"
+```
+
+使用共有数据库中的所有数据。另外所有后端的api文档中的url也都写进了共有代码中。
+
+```js
+// information includes everything about one account
+const information = {
+    "username":"",
+    "nickname":"",
+    "email":"",
+    "address":"",
+    "birthday":"",
+    "signature":"",
+    "profile":"",
+    "gender":"",
+    "allBlogs":"",
+    "followers":"",
+    "followees":"",
+    "login":false,
+}
+
+// lookup table for api
+const request_api = {
+    "username":["/user/getUsername",[]],
+    "nickname":["/user/getNickname",["username"]],
+    "email":["/user/getEmail",["username"]],
+    "address":["/user/getAddress",["username"]],
+    "birthday":["/user/getBirthday",["username"]],
+    "signature":["/user/getSignature",["username"]],
+    "profile":["/user/getProfile",["username"]],
+    "gender":["/user/getGender",["username"]],
+    "allBlogs":["/blog/refreshBlogs",[]],
+    "followers":["/user/getFollowers",["username"]],
+    "followees":["/user/getFollowees",["username"]],
+}
+
+const modify_api = {
+    "nickname":["/user/modifyNickname",[]],
+    "address":["/user/modifyAddress",[]],
+    "birthday":["/user/modifyBirthday",[]],
+    "gender":["/user/modifyGender",[]],
+    "profile":["/user/modifyProfile",[]],
+    "signature":["/user/modifySignature",[]],
+    "password":["/user/modifyPassword",[]],
+}
+```
+
+另外定义了`base.js`作为全局的公有方法，可以通过`this.function()`调用。
+
+例如请求数据的共有前端api如下，比如可以通过`request_data("username")`直接请求后端数据并且存放在前端中。
+
+- 需要注意加上`async`标识符，因为需要等待数据请求结束
+- 所有数据存放在`information`中
+
+```js
+// Public API to request everything
+async function request_data(needed_data) {
+  // find required data to post
+  // needed_data: str "nickname"
+
+  //   console.log("Entering request_data")
+  var request = global.request_api[needed_data];
+  //   console.log(request)
+  var api = request[0];
+  var required_data = generate_data(request[1]);
+
+//   console.log(required_data);
+  //request needed data
+  await axios.post(api, required_data).then((response) => {
+    var data = response.data;
+    if (data.error_code == 200)
+      console.log(needed_data, data.data),
+        global.information[needed_data] = data.data;
+  });
+}
+```
+
 #### 发布动态
 
 在主页中间部分的顶端，用户可以发布动态。
@@ -604,7 +687,9 @@ methods: {
 
 #### 主页更新
 
+主页更新内容主要是可以显示刷新出来的动态、左边显示签名头像名字、中间可以发布动态且上传图片。
 
+<img src="D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129144333725.png" alt="image-20201129144333725" style="zoom: 33%;" />
 
 
 
@@ -637,16 +722,87 @@ methods: {
 
 
 
+#### 关注列表更新
 
+关注列表页面分为关注和被关注：
 
+- 关注即following
+- 被关注即follower
 
+两者均在同一个页面，通过传入不同的`query`内容，即可获取不同的`follow_view`来判断是`following`还是`follower`。
+
+```html
+<v-btn text color="primary" @click="change">
+        <router-link :to="{path:'/follow',query:{follow_view:true}}"   >Following</router-link>
+      </v-btn>
+      <v-btn text color="primary" @click="change">
+        <router-link :to="{path:'/follow',query:{follow_view:false}}" >Followers</router-link>
+      </v-btn>
+```
+
+<img src="D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129142359189.png" alt="image-20201129142359189" style="zoom: 33%;" />
+
+<img src="D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129142410891.png" alt="image-20201129142410891" style="zoom:33%;" />
+
+### 5.3 前后端运行
+
+在前端完成交互逻辑的初步开发后，需要与后端进行联调。这里简单描述联调时本地运行前后端的方式。
+
+#### 本地部署运行后端
+
+在拉取后端代码后，在后端目录下运行如下命令:
+
+```shell
+python manage.py makemigrations app1 app2 ...
+
+python manage.py migrate
+
+python manage.py runserver
+```
+
+runserver后，可以看到输出的本地url。在本地测试时，前端vue.config.js的proxy配置中的target要修改为这个本地url：
+
+```
+System check identified no issues (0 silenced).
+November 13, 2020 - 13:36:45
+Django version 3.1.2, using settings 'danbo_backend.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+```
+
+#### 本地运行前端(dev)
+
+拉取前端代码后，在前端目录下运行如下命令（要先安装npm)：
+
+```
+npm install
+npm run serve
+```
+
+也可以运行`vue ui`使用vue-cli图形化界面热加载运行前端，具体步骤略。
+
+运行后端和前端后，便可以在本地进行测试/调试。
 
 
 
 ## 6 产品展示
 
-![image-20201129142023625](D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129142023625.png)
+<img src="D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129144440573.png" alt="image-20201129144440573" style="zoom:33%;" />
 
-![image-20201129142004537](D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129142004537.png)
+<img src="D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129142023625.png" alt="image-20201129142023625" style="zoom:33%;" />
 
-![image-20201129142010968](D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129142010968.png)
+<img src="D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129142410891.png" alt="image-20201129142410891" style="zoom:33%;" />
+
+<img src="D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129142004537.png" alt="image-20201129142004537" style="zoom:33%;" />
+
+<img src="D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129142010968.png" alt="image-20201129142010968" style="zoom:33%;" />
+
+<img src="D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129141528430.png" alt="image-20201129141528430" style="zoom:50%;" />
+
+<img src="D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129141541116.png" alt="image-20201129141541116" style="zoom:50%;" />
+
+<img src="D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129141552664.png" alt="image-20201129141552664" style="zoom:50%;" />
+
+<img src="D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\image-20201129141514433.png" alt="image-20201129141514433" style="zoom:50%;" />
+
+<img src="D:\复旦\计算机课程\大四上\软件工程化开发\project\Software-Engineering-Project---Danbo\Sprint2文档\release_horse.png" style="zoom:50%;" />
