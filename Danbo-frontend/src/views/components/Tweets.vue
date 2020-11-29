@@ -1,21 +1,19 @@
 <template>
   <div>
-    <Edit/>
-    <Tweet/>
-
-    <!-- </div> -->
+    <Edit @refresh_content="refresh_tweetlist"/>
+    <TweetList ref="tweetlist" />
   </div>
 </template>
 
 <script>
 import global from "../components/global";
-import Tweet from './Tweet.vue';
+import TweetList from './TweetList.vue';
 
 export default {
   name: "tweets",
 
   components: {
-    Tweet: () => import("../components/Tweet"),
+    TweetList: () => import("../components/TweetList"),
     Edit: () => import("../components/Edit"),
   },
 
@@ -28,6 +26,10 @@ export default {
   mounted() {
   },
 
-  methods: {},
+  methods: {
+    refresh_tweetlist: async function () {
+      this.$refs.tweetlist.get_tweets();
+    },
+  },
 };
 </script>
