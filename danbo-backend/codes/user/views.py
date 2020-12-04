@@ -144,6 +144,7 @@ def login(request):
             content = {"error_code": 411, "message": "用户不存在", "data": None}
         else:
             key = User.objects.get(username=username).password
+            print(key==password)
             if check_password(password,key) == False:
                 content = {"error_code": 412, "message": "密码不正确", "data": None}
             else:
@@ -475,7 +476,7 @@ def get_profile_path(request):
         else:
             user = User.objects.get(username=username)
             if Profile.objects.filter(user=user).exists()==False:
-                profile_path = 'default_path'
+                profile_path = 'profiles/default.jpeg'
             else:
                 profile = Profile.objects.get(user=user)
                 profile_path = str(profile.image)
@@ -628,3 +629,18 @@ def cancel_follow(request):
                     Follow.objects.get(from_user=from_user,to_user=to_user).delete()
                     content = {"error_code": 200, "message": "取消关注成功", "data": None}
     return HttpResponse(json.dumps(content))
+
+def search_user(request):
+    # 查找用户
+    # Arguments:
+    #     request: It should contains {"keyword":<str>}
+    # Return:
+    #     An HttpResponse which contains {"error_code":<int>, "message":<str>,"data":<list>}
+    content = {}
+    if request.method == 'POST':
+        keyword = request.POST.get('keyword')
+        users_found = User.objects.filter(nickname__icontains = keyword)
+        targets = [u.username for u in users_found]
+        content = {"error_code": 200, "message": "查找用户成功", "data": targets}
+    return HttpResponse(json.dumps(content))
+
