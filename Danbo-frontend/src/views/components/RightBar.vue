@@ -18,11 +18,11 @@
     </v-list-item>
 
     <v-card-actions>
-      <v-btn text color="primary" @click="change">
-        <router-link :to="{path:'/follow',query:{follow_view:true}}"   >Following</router-link>
+      <v-btn text color="primary" @click="change(0)">
+        Following
       </v-btn>
-      <v-btn text color="primary" @click="change">
-        <router-link :to="{path:'/follow',query:{follow_view:false}}" >Followers</router-link>
+      <v-btn text color="primary" @click="change(1)">
+        Followers
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -58,9 +58,28 @@ export default {
   computed: {},
 
   methods: {
-    change: function(){
-      window.location.reload()
-      // this.reload();
+    change: function(i){
+      console.log(this.$route.path,i)
+      if(this.$route.path=="/follow")
+      {
+        if(i==0 && this.$route.query.follow_view == "false")
+        {
+          this.$router.push({path: "follow", query:{follow_view: "true"}})
+          window.location.reload()
+        }
+        if(i==1 && this.$route.query.follow_view == "true")
+        {
+          this.$router.push({path: "follow", query:{follow_view: "false"}})
+          window.location.reload()
+        }
+      }
+      else
+      {
+        if(i==0)
+          this.$router.push({path: "follow", query:{follow_view: "true"}})
+        else
+          this.$router.push({path: "follow", query:{follow_view: "false"}})
+      }
     },
   },
 };

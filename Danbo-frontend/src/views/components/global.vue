@@ -14,6 +14,9 @@ const information = {
     "followers":"",
     "followees":"",
     "login":false,
+    "hotTopics":"",
+    "currentTopic":"",
+    "topicBlogs":"",
 }
 
 // lookup table for api
@@ -29,6 +32,8 @@ const request_api = {
     "allBlogs":["/blog/refreshBlogs",[]],
     "followers":["/user/getFollowers",["username"]],
     "followees":["/user/getFollowees",["username"]],
+    "hotTopics":["/blog/gethotTopics",[]],
+    "topicBlogs":["/blog/getTopicBlogs",["currentTopic"]],
 }
 
 const modify_api = {

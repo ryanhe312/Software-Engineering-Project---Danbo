@@ -127,5 +127,6 @@ export default {
 }
 a {
   text-decoration: none;
+  /* color:#6495ed */
 }
 </style>

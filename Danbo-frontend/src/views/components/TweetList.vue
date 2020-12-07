@@ -40,8 +40,30 @@ export default {
 
   methods: {
     get_tweets: async function () {
-      await this.request_data("allBlogs");
-      this.tweets = global.information["allBlogs"];
+      var path = this.$route.path;
+      // console.log("now we are in", path);
+      if(path=="/home")
+      {
+        await this.request_data("allBlogs");
+        this.tweets = global.information["allBlogs"];
+      }
+      else if(path=="/topic")
+      {
+        // console.log("topic")
+        await this.request_data("allBlogs");
+        this.tweets = global.information["allBlogs"];
+        // global.information["currentTopic"] = this.$route.query.currentTopic;
+        // await this.request_data("getTopicBlogs");
+        // this.tweets = global.information["topicBlogs"];
+      }
+      else
+      {
+        // console.log("otherperson")
+        await this.request_data("allBlogs");
+        this.tweets = global.information["allBlogs"];
+      }
+
+      
     },
   },
 };

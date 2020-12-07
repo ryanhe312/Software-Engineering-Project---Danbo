@@ -38,9 +38,12 @@
 
       <template v-slot:extension>
         <v-tabs align-with-title>
-          <v-tab>My zone</v-tab>
-          <v-tab>Following</v-tab>
-          <v-tab>Hot</v-tab>
+          <v-tab>
+            <router-link to="/home"> My zone </router-link>
+          </v-tab>
+          <v-tab>
+            <router-link to="/topic"> Hot </router-link>
+          </v-tab>
         </v-tabs>
       </template>
     </v-app-bar>

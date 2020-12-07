@@ -185,6 +185,8 @@ export default {
     images: "https://cdn.vuetifyjs.com/images/john.jpg",
   }),
   async mounted() {
+    this.user = this.$route.query.user
+    console.log(this.user)
     //  this.req_name();
     //  this.req_signature();
     //  this.req_address();

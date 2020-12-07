@@ -29,6 +29,21 @@ const routes = [
     name:'personal',
     component: () => import("../views/Personal/Personal.vue")
   },
+  {
+    path:'/topic',
+    name:'topic',
+    component: () => import("../views/topic/topic.vue")
+  },
+  {
+    path:'/otherper',
+    name:'otherper',
+    component: () => import("../views/OtherPer/OtherPer.vue")
+  },
+  // {
+  //       path:'/search',
+  //       name:'Search',
+  //       component: () => import("../views/Search/Search.vue")
+  //     },
 ]
 
 const router = new VueRouter({
