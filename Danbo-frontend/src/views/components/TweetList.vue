@@ -43,6 +43,7 @@ export default {
           var data = response.data;
           if (data.error_code == 200) {
             this.tweets = data.data;
+            console.log(this.tweets.length);
           }
         });
     },
