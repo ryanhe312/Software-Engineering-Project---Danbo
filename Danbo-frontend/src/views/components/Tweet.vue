@@ -80,11 +80,12 @@ import global from "../components/global";
 
 export default {
   name: "tweet",
-  props: ["tweet_content", "tweet_id"],
+  props: ["tweet_content"],
   components: {},
 
   data() {
     return {
+      tweet_id: 0,
       tweet: this.tweet_content,
       like_usernames: [],
       like_num: 0,
@@ -96,6 +97,7 @@ export default {
 
   mounted() {
     console.log(this.tweet_id, this.tweet);
+    this.tweet_id = this.tweet["id"];
     this.get_like();
   },
 
