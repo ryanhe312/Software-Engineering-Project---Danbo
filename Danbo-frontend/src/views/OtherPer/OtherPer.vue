@@ -9,38 +9,43 @@
           <v-row>
             <v-col cols="1" sm="5" offset-sm="0">
               <v-card max-width="375" class="mx-auto">
-                <v-img
-                  src="https://cdn.vuetifyjs.com/images/lists/ali.png"
-                  height="300px"
-                  dark
-                >
+                <v-img :src="images" height="300px" dark>
                   <v-row class="fill-height">
                     <v-card-title>
-                      <v-btn dark icon>
+                      <v-btn class="mx-5" dark icon @click="gohome()">
                         <v-icon>mdi-chevron-left</v-icon>
                       </v-btn>
-
-                      <v-spacer></v-spacer>
-
-                      <v-btn dark icon class="mr-4">
-                        <v-icon>mdi-pencil</v-icon>
-                      </v-btn>
-
-                      <v-btn dark icon>
-                        <v-icon>mdi-dots-vertical</v-icon>
-                      </v-btn>
                     </v-card-title>
+                    <v-row align="center" justify="end">
+                      <v-icon class="mx-16" x-large> </v-icon>
+                      <v-icon class="mx-2" x-large> </v-icon>
 
+                      <v-icon class="mx-16" x-large v-if="!like_flag">
+                        mdi-heart
+                      </v-icon>
+                      <v-icon
+                        class="mx-16"
+                        color="red"
+                        x-large
+                        v-if="like_flag"
+                      >
+                        mdi-heart
+                      </v-icon>
+                    </v-row>
                     <v-spacer></v-spacer>
 
-                    <v-card-title class="white--text pl-12 pt-12">
-                      <div class="display-1 pl-12 pt-12">Ali Conners</div>
-                      <v-btn text color="primary">
-                        <router-link to="/follow">Following</router-link>
-                      </v-btn>
-                      <v-btn text color="primary">
-                        <router-link to="/follow">Followers</router-link>
-                      </v-btn>
+                    <v-card-title class="grey--text pl-16 pt-12">
+                      <div class="display-1 pl-12 pt-12" v-text="name"></div>
+                      <div>
+                        <v-card-actions>
+                          <v-btn text color="primary" @click="change(0)">
+                            Following
+                          </v-btn>
+                          <v-btn text color="primary" @click="change(1)">
+                            Followers
+                          </v-btn>
+                        </v-card-actions>
+                      </div>
                     </v-card-title>
                   </v-row>
                 </v-img>
@@ -107,56 +112,7 @@
               </v-card>
             </v-col>
             <v-col cols="2" sm="6" offset-sm="0">
-              <v-card
-                elevation="1"
-                class="mx-auto mb-2"
-                outlined
-                color="white"
-                max-width="1200"
-                v-for="i in list"
-                :key="i"
-              >
-                <v-container fluid>
-                  <v-row justify="center">
-                    <v-col cols="12">
-                      <v-card-title>
-                        <v-list-item-avatar color="grey darken-2">
-                          <v-img
-                            class="elevation-6"
-                            alt=""
-                            src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-                          ></v-img>
-                        </v-list-item-avatar>
-
-                        <v-list-item-content>
-                          <v-list-item-title>Ning</v-list-item-title>
-                        </v-list-item-content>
-                      </v-card-title>
-
-                      <v-card-text class="bold">
-                        Turns out semicolon-less style is easier and safer in TS
-                        because most gotcha edge cases are type invalid as
-                        well.fdafasfsdafDsafdsfasd
-                      </v-card-text>
-
-                      <v-card-actions>
-                        <v-list-item class="grow">
-                          <v-row align="center" justify="end">
-                            <v-icon class="mr-1"> mdi-heart </v-icon>
-                            <span class="subheading mr-2">256</span>
-
-                            <v-icon class="mr-1"> mdi-comment </v-icon>
-                            <span class="subheading mr-2">10</span>
-
-                            <v-icon class="mr-1"> mdi-share-variant </v-icon>
-                            <span class="subheading">45</span>
-                          </v-row>
-                        </v-list-item>
-                      </v-card-actions>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card>
+              <TweetList ref="tweetlist" :get_tweets_api="'/blog/getBlog'" />
             </v-col>
           </v-row>
         </div>
@@ -167,34 +123,62 @@
 
 <script>
 export default {
-  name: "DashboardIndex",
+  name: "otherperson",
 
   components: {
     TopBar: () => import("../components/TopBar"),
+    TweetList: () => import("../components/TweetList"),
   },
 
   data: () => ({
-    user:"",
-    name: "piner king",
-    gender: "male",
-    birthday: "1999-02-14",
-    signature: "1234567890-",
-    list: [1, 2, 3, 4, 5],
-    email: "17307130181@fudan.edu.cn",
-    address: "fudan",
-    images: "https://cdn.vuetifyjs.com/images/john.jpg",
+    user: "",
+    name: "",
+    gender: "",
+    birthday: "",
+    signature: "",
+    email: "",
+    like_flag: false,
+    address: "",
+    images: "https://cdn.vuetifyjs.com/images/lists/ali.png",
   }),
   async mounted() {
-    this.user = this.$route.query.user
-    console.log(this.user)
-    //  this.req_name();
-    //  this.req_signature();
-    //  this.req_address();
-    //  this.req_gender();
-    //  this.req_birthday();
-     // this.req_email();
+    await this.getdata();
+    this.req_name();
+    this.req_signature();
+    this.req_address();
+    this.req_gender();
+    this.req_birthday();
+    this.req_email();
   },
   methods: {
+    async getdata() {
+      this.user = this.$route.query.user;
+    },
+
+    change: function (i) {
+      console.log(this.$route.path, i);
+      if (this.$route.path == "/follow") {
+        if (i == 0 && this.$route.query.follow_view == "false") {
+          this.$router.push({ path: "follow", query: { follow_view: "true" } });
+          window.location.reload();
+        }
+        if (i == 1 && this.$route.query.follow_view == "true") {
+          this.$router.push({
+            path: "follow",
+            query: { follow_view: "false" },
+          });
+          window.location.reload();
+        }
+      } else {
+        if (i == 0)
+          this.$router.push({ path: "follow", query: { follow_view: "true" } });
+        else
+          this.$router.push({
+            path: "follow",
+            query: { follow_view: "false" },
+          });
+      }
+    },
     //获取昵称
     req_name: function () {
       var formdata = new FormData();
@@ -274,9 +258,9 @@ export default {
     ack_birthday: function (response) {
       var data = response.data;
       if (data.error_code == 200) {
-        this.date = data.data;
+        this.birthday = data.data;
       } else {
-        this.date = data.data;
+        this.birthday = data.data;
       }
     },
     //获取性别
@@ -295,9 +279,13 @@ export default {
     ack_gender: function (response) {
       var data = response.data;
       if (data.error_code == 200) {
-        this.radios = data.data;
-      } else {
-        this.radios = data.data;
+        if (data.data == 0) {
+          this.gender = "Male";
+        } else if (data.data == 1) {
+          this.gender = "Female";
+        } else {
+          this.gender = "Secret";
+        }
       }
     },
     req_email: function () {
@@ -319,6 +307,9 @@ export default {
       } else {
         this.eamil = data.data;
       }
+    },
+    gohome() {
+      this.$router.push({ path: "/home" });
     },
   },
 };

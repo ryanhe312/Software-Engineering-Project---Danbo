@@ -20,7 +20,7 @@
 <script>
 import global from "../components/global";
 import Tweet from "./Tweet.vue";
-
+import OtherPer from "../OtherPer/OtherPer";
 export default {
   name: "tweetlist",
 

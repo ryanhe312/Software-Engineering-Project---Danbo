@@ -17,6 +17,9 @@ const information = {
     "hotTopics":"",
     "currentTopic":"",
     "topicBlogs":"",
+    "searchuser":[],
+    "keyword":"",
+    "searchtopic":[],
 }
 
 // lookup table for api
@@ -34,6 +37,8 @@ const request_api = {
     "followees":["/user/getFollowees",["username"]],
     "hotTopics":["/blog/gethotTopics",[]],
     "topicBlogs":["/blog/getTopicBlogs",["currentTopic"]],
+    "searchuser":["/user/searchUser",["keyword"]],
+    "searchtopic":["/blog/searchTopic",["keyword"]],
 }
 
 const modify_api = {

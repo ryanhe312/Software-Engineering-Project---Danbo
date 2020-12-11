@@ -39,11 +39,16 @@ const routes = [
     name:'otherper',
     component: () => import("../views/OtherPer/OtherPer.vue")
   },
-  // {
-  //       path:'/search',
-  //       name:'Search',
-  //       component: () => import("../views/Search/Search.vue")
-  //     },
+  {
+    path:'/search',
+    name:'Search',
+    component: () => import("../views/Search/Search.vue")
+  },
+  {
+    path:'/blank',
+    name:'blank',
+    component: () => import("../views/blank/blank.vue")
+  },
 ]
 
 const router = new VueRouter({

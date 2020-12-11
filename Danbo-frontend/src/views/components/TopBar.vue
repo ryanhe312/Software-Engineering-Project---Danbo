@@ -23,8 +23,17 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
-
-      <v-btn icon>
+      <v-text-field
+      v-model="keyword"
+      label="Search Something"
+      dark
+      flat
+      solo-inverted
+      hide-details
+      clearable
+      clear-icon="mdi-close-circle-outline"
+    ></v-text-field>
+      <v-btn icon @click="this.search">
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
@@ -58,12 +67,16 @@ export default {
   },
 
   data: () => ({
-  }),
+    keyword:"",
+}),
 
   computed: {
   },
 
   methods: {
+    async search() {
+      this.$router.push({path:"/blank", query:{keyword:this.keyword}});
+    },
   },
 };
 </script>
