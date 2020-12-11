@@ -16,6 +16,14 @@
           >
           </v-textarea>
 
+          <v-chip-group active-class="primary--text" column>
+              <v-chip v-for="(tag, i) in tags" :key="i" label close @click:close="close_tag(i)">
+                {{ tag }}
+              </v-chip>
+          </v-chip-group>
+
+          <v-col></v-col>
+
           <v-file-input
             v-model="images"
             accept="image/png, image/jpeg, image/bmp"
@@ -103,6 +111,7 @@ export default {
 
   data: () => ({
     images: [],
+    tags: [],
     Share_text: "",
   }),
 
@@ -113,6 +122,18 @@ export default {
   methods: {
     img2url: function (img) {
       return URL.createObjectURL(img);
+    },
+
+    add_tag: function (tag) {
+      if(tag.length > 0){
+        this.tags.append(tag);
+      }
+    },
+
+    close_tag: function (tag_id) {
+      if (tag_id >= 0 && tag_id < this.tags.length){
+        this.tags.splice(tag_id, 1);
+      }
     },
 
     release: function () {

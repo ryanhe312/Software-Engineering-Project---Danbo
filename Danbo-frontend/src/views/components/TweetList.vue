@@ -20,31 +20,23 @@
 <script>
 import global from "../components/global";
 import Tweet from "./Tweet.vue";
-
 export default {
   name: "tweetlist",
-
   components: {
     Tweet: () => import("../components/Tweet"),
   },
-
-  props: ["get_tweets_api"],
-
+  props: ["get_tweets_api", "get_tweets_formdata"],
   data: () => ({
     tweets: [],
   }),
-
   computed: {},
-
   mounted() {
     this.get_tweets();
   },
-
   methods: {
     get_tweets: async function () {
-      var formdata = new FormData();
       await this.axios
-        .post(this.get_tweets_api, formdata, {
+        .post(this.get_tweets_api, this.get_tweets_formdata, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((response) => {
