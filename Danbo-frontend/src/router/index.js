@@ -10,7 +10,7 @@ const routes = [
    component: () => import('../views/Home/Home.vue')
   },
   {
-    path: '/sign',
+    path: '/',
     name: 'Sign',
     component: () => import('../views/Sign/Sign.vue')
    },
@@ -30,10 +30,20 @@ const routes = [
     component: () => import("../views/Personal/Personal.vue")
   },
   {
-    path:'/',
-    name:'otherPer',
+    path:'/topic',
+    name:'topic',
+    component: () => import("../views/topic/topic.vue")
+  },
+  {
+    path:'/otherper',
+    name:'otherper',
     component: () => import("../views/OtherPer/OtherPer.vue")
   },
+  // {
+  //       path:'/search',
+  //       name:'Search',
+  //       component: () => import("../views/Search/Search.vue")
+  //     },
 ]
 
 const router = new VueRouter({

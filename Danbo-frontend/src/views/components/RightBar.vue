@@ -1,67 +1,95 @@
 <template>
-<v-card
-    class="mx-auto"
-    max-width="344"
-    outlined
-  >
+  <v-card class="mx-auto" max-width="344" outlined>
     <v-list-item three-line>
       <v-list-item-content>
         <div class="overline mb-1">
-          <router-link  to="/personal">Ning</router-link>
+          <router-link to="/personal">{{username}}</router-link>
         </div>
-        <v-list-item-subtitle>Fudan CS.</v-list-item-subtitle>
+        <v-list-item-subtitle>{{signature}}</v-list-item-subtitle>
       </v-list-item-content>
 
-      <v-list-item-avatar
-        tile
-        size="80"
-        color="grey"
-      >
-      <v-img
-              class="elevation-6"
-              alt=""
-              src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-            ></v-img>
-            </v-list-item-avatar>
+      <v-list-item-avatar tile size="80" color="grey">
+        <v-img
+          class="elevation-6"
+          alt=""
+          src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+        ></v-img>
+      </v-list-item-avatar>
     </v-list-item>
 
-    <v-card>
-        <v-btn
-      text
-      color="primary"
-    >
-    <router-link  to="/follow">Following</router-link>
-    </v-btn>
-    <v-btn
-      text
-      color="primary"
-    >
-    <router-link  to="/follow">Followers</router-link>
-    </v-btn>
-    </v-card>
+    <v-card-actions>
+      <v-btn text color="primary" @click="change(0)">
+        Following
+      </v-btn>
+      <v-btn text color="primary" @click="change(1)">
+        Followers
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
+
 <script>
+import global from "../components/global"
 export default {
   name: "RightBar",
 
-  components: {},
+  components: {
+    
+  },
 
   data: () => ({
-    }),
+    username: global.information["username"],
+    signature: global.information["signature"],
+  }),
+
+  mounted: async function() {
+    await this.req_all();
+    this.username = global.information["username"];
+    this.signature = global.information["signature"]+"";
+    // console.log(this.username)
+  },
+
+
+  created() {
+    // this.req_all();
+  },
 
   computed: {},
 
-  methods: {},
+  methods: {
+    change: function(i){
+      console.log(this.$route.path,i)
+      if(this.$route.path=="/follow")
+      {
+        if(i==0 && this.$route.query.follow_view == "false")
+        {
+          this.$router.push({path: "follow", query:{follow_view: "true"}})
+          window.location.reload()
+        }
+        if(i==1 && this.$route.query.follow_view == "true")
+        {
+          this.$router.push({path: "follow", query:{follow_view: "false"}})
+          window.location.reload()
+        }
+      }
+      else
+      {
+        if(i==0)
+          this.$router.push({path: "follow", query:{follow_view: "true"}})
+        else
+          this.$router.push({path: "follow", query:{follow_view: "false"}})
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
-.router-link-active {    
+.router-link-active {
   text-decoration: none;
 }
- a {
+a {
   text-decoration: none;
- }
+}
 </style>

@@ -185,6 +185,8 @@ export default {
     images: "https://cdn.vuetifyjs.com/images/john.jpg",
   }),
   async mounted() {
+    this.user = this.$route.query.user
+    console.log(this.user)
     //  this.req_name();
     //  this.req_signature();
     //  this.req_address();
@@ -298,8 +300,7 @@ export default {
         this.radios = data.data;
       }
     },
-    //获取邮箱
-    /*req_email: function () {
+    req_email: function () {
       var formdata = new FormData();
       formdata.append("username", this.user);
       this.axios
@@ -318,7 +319,7 @@ export default {
       } else {
         this.eamil = data.data;
       }
-    },*/
+    },
   },
 };
 </script>

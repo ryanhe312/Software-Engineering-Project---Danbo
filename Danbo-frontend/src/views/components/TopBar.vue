@@ -19,7 +19,7 @@
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
       <v-toolbar-title>
-        <router-link  to="/">Danbo</router-link>
+        <router-link  to="/home">Danbo</router-link>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -38,9 +38,12 @@
 
       <template v-slot:extension>
         <v-tabs align-with-title>
-          <v-tab>My zone</v-tab>
-          <v-tab>Following</v-tab>
-          <v-tab>Hot</v-tab>
+          <v-tab>
+            <router-link to="/home"> My zone </router-link>
+          </v-tab>
+          <v-tab>
+            <router-link to="/topic"> Hot </router-link>
+          </v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
@@ -67,6 +70,10 @@ export default {
 
 <style scoped>
 .router-link-active {    
+  text-decoration: none;
+  color:rgb(255, 255, 255);
+}
+.router-link {    
   text-decoration: none;
   color:rgb(255, 255, 255);
 }

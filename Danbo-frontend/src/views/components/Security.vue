@@ -79,11 +79,12 @@
 </template>
 
 <script>
+import global from "../components/global"
 export default {
   data: () => ({
     step: 1,
-    email: "",
-    user: "",
+    username: global.information["username"],
+    email: global.information["email"],
     codes: "",
     password: "",
     repassword: "",
@@ -104,53 +105,9 @@ export default {
       }
     },
   },
-  async mounted() {
-    await this.req_user();
-    //this.req_email();
+  created() {
   },
   methods: {
-    //获取用户名
-    async req_user () {
-      await this.axios
-        .post("/user/getUsername", {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((response) => this.ack_user(response))
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    ack_user: function (response) {
-      var data = response.data;
-      if (data.error_code == 200) {
-        this.user = data.data;
-      } 
-      else {
-        alert("未登录！");
-        this.$router.push("/");
-      }
-    },
-    /*//获取邮箱
-    req_email: function () {
-      var formdata = new FormData();
-      formdata.append("user", this.user);
-      this.axios
-        .post("/user/getEmail", formdata, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((response) => this.ack_email(response))
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    ack_email: function (response) {
-      var data = response.data;
-      if (data.error_code == 200) {
-        this.email = data.data;
-      } else {
-        this.eamil = data.data;
-      }
-    },*/
     //发送验证码
     req_verify: function () {
       var formdata = new FormData();
@@ -169,13 +126,13 @@ export default {
       if (data.error_code == 200) {
         this.step++;
       } else {
-        alert("发送验证码失败\n"+data.error_code);
+        alert("发送验证码失败\n");
       }
     },
     //修改密码
     req_modify: function () {
       var formdata = new FormData();
-      formdata.append("user", this.user);
+      formdata.append("username", this.username);
       formdata.append("password", this.password);
       formdata.append("r_password", this.repassword);
       formdata.append("email", this.email);
