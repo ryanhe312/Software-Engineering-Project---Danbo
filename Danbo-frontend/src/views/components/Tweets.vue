@@ -1,7 +1,7 @@
 <template>
   <div>
     <Edit @refresh_content="refresh_tweetlist"/>
-    <TweetList ref="tweetlist" />
+    <TweetList ref="tweetlist" :get_tweets_api="'/blog/refreshBlogs'" />
   </div>
 </template>
 
@@ -19,6 +19,7 @@ export default {
 
   data: () => ({
     Share_text: "",
+    tweetlist_api: "/blog/refreshBlogs",
   }),
 
   computed: {},
