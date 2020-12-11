@@ -54,8 +54,10 @@
           <v-card-actions>
             <v-list-item class="grow">
               <v-row align="center" justify="end">
-                <v-icon class="mr-1" v-if="!like_flag"> mdi-heart </v-icon>
-                <v-icon class="mr-1" color="red" v-if="like_flag"> mdi-heart </v-icon>
+                <v-icon class="mr-1" v-if="!like_flag" @click="like_tweet"> mdi-heart </v-icon>
+                <v-icon class="mr-1" color="red" v-if="like_flag" @click="like_tweet">
+                  mdi-heart
+                </v-icon>
                 <span class="subheading mr-2">{{ this.like_num }}</span>
 
                 <v-icon class="mr-1"> mdi-comment </v-icon>
@@ -114,6 +116,37 @@ export default {
       this.like_num = this.like_usernames.length;
       if (this.like_usernames.indexOf(global.information["username"]) >= 0) {
         this.like_flag = true;
+      }
+    },
+    like_tweet: async function () {
+      await this.get_like();
+      var formdata = new FormData();
+      formdata.append("blog_id", this.tweet_id);
+
+      if (this.like_flag) {
+        await this.axios
+          .post("/blog/cancelLike", formdata, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+          .then((response) => {
+            var data = response.data;
+            if (data.error_code == 200) {
+              this.like_flag = !this.like_flag;
+              this.like_num -= 1;
+            }
+          });
+      } else {
+        await this.axios
+          .post("/blog/giveLike", formdata, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+          .then((response) => {
+            var data = response.data;
+            if (data.error_code == 200) {
+              this.like_flag = !this.like_flag;
+              this.like_num += 1;
+            }
+          });
       }
     },
     complete_image_url: function (rel_url) {
