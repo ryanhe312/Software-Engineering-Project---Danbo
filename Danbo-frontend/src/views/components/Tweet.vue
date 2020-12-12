@@ -51,11 +51,26 @@
             </v-row>
           </v-card>
 
+          <v-card-text class="bold">
+            <v-chip-group active-class="primary--text" column>
+              <v-chip v-for="tag in tweet['tags']" :key="tag" label to="/home">
+                {{ tag }}
+              </v-chip>
+            </v-chip-group>
+          </v-card-text>
+
           <v-card-actions>
             <v-list-item class="grow">
               <v-row align="center" justify="end">
-                <v-icon class="mr-1" v-if="!like_flag" @click="like_tweet"> mdi-heart </v-icon>
-                <v-icon class="mr-1" color="red" v-if="like_flag" @click="like_tweet">
+                <v-icon class="mr-1" v-if="!like_flag" @click="like_tweet">
+                  mdi-heart
+                </v-icon>
+                <v-icon
+                  class="mr-1"
+                  color="red"
+                  v-if="like_flag"
+                  @click="like_tweet"
+                >
                   mdi-heart
                 </v-icon>
                 <span class="subheading mr-2">{{ this.like_num }}</span>
@@ -93,10 +108,15 @@ export default {
     };
   },
 
+  watch: {
+    tweet_content(curVal, oldVal) {
+      this.tweet = curVal;
+    },
+  },
+
   computed: {},
 
   mounted() {
-    console.log(this.tweet_id, this.tweet);
     this.tweet_id = this.tweet["id"];
     this.get_like();
   },
@@ -153,7 +173,6 @@ export default {
     },
     complete_image_url: function (rel_url) {
       var url = "http://127.0.0.1:8000/media/" + rel_url;
-      console.log(url);
       return url;
     },
   },

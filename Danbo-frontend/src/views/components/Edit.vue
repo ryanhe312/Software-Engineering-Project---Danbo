@@ -16,6 +16,34 @@
           >
           </v-textarea>
 
+          <v-chip-group active-class="primary--text" column>
+            <v-chip
+              v-for="(tag, i) in tags"
+              :key="i"
+              label
+              close
+              @click:close="close_tag(i)"
+            >
+              {{ tag }}
+            </v-chip>
+          </v-chip-group>
+
+          <v-col cols="12" sm="6">
+            <v-row align="center">
+              <v-text-field
+                v-model="input_tag"
+                label="Topic"
+                clearable
+                min-width="20"
+              ></v-text-field>
+              <v-btn class="mx-2" icon color="success" @click="add_tag()">
+                <v-icon large> mdi-plus-box </v-icon>
+              </v-btn>
+            </v-row>
+          </v-col>
+
+          <v-col></v-col>
+
           <v-file-input
             v-model="images"
             accept="image/png, image/jpeg, image/bmp"
@@ -23,7 +51,7 @@
             counter
             label="File input"
             multiple
-            placeholder="Select your files"
+            placeholder="Select your images"
             prepend-icon="mdi-paperclip"
             outlined
             :show-size="1000"
@@ -103,6 +131,8 @@ export default {
 
   data: () => ({
     images: [],
+    tags: [],
+    input_tag: "",
     Share_text: "",
   }),
 
@@ -115,24 +145,38 @@ export default {
       return URL.createObjectURL(img);
     },
 
-    release: function () {
+    add_tag: function () {
+      if (this.input_tag.length > 0) {
+        this.tags.push(this.input_tag);
+        this.input_tag = "";
+      }
+    },
+
+    close_tag: function (tag_id) {
+      if (tag_id >= 0 && tag_id < this.tags.length) {
+        this.tags.splice(tag_id, 1);
+      }
+    },
+
+    release: async function () {
       var formdata = new FormData();
       formdata.append("content", this.Share_text);
       for (let i in this.images) {
         formdata.append("pictures", this.images[i]);
       }
+      for (let i in this.tags) {
+        formdata.append("topics", this.tags[i]);
+      }
 
       var api = "/blog/releaseBlog";
-      console.log("content", formdata.get("content"));
-      console.log("pictures", formdata.get("pictures"));
       //request needed data
-      this.axios.post(api, formdata).then((response) => {
+      await this.axios.post(api, formdata).then((response) => {
         var data = response.data;
-        if (data.error_code == 200)
-          // console.log(data.data),
+        if (data.error_code == 200) 
           alert(data.message);
         this.Share_text = "";
         this.images = [];
+        this.tags = [];
         this.$emit("refresh_content");
       });
     },

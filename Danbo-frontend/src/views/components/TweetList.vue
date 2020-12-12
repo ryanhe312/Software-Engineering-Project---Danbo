@@ -20,37 +20,30 @@
 <script>
 import global from "../components/global";
 import Tweet from "./Tweet.vue";
-import OtherPer from "../OtherPer/OtherPer";
 export default {
   name: "tweetlist",
-
   components: {
     Tweet: () => import("../components/Tweet"),
   },
-
-  props: ["get_tweets_api"],
-
+  props: ["get_tweets_api", "get_tweets_formdata"],
   data: () => ({
     tweets: [],
   }),
-
   computed: {},
-
   mounted() {
     this.get_tweets();
   },
-
   methods: {
     get_tweets: async function () {
-      var formdata = new FormData();
       await this.axios
-        .post(this.get_tweets_api, formdata, {
+        .post(this.get_tweets_api, this.get_tweets_formdata, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((response) => {
           var data = response.data;
           if (data.error_code == 200) {
             this.tweets = data.data;
+            console.log(this.tweets.length);
           }
         });
     },
