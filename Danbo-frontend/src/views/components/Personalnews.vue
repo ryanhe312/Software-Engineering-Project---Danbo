@@ -75,11 +75,12 @@
             ref="picker"
             v-model="birthday"
             :max="new Date().toISOString().substr(0, 10)"
-            value-format="YY-MM-DD"
+            value-format="YYYY-MM-DD"
             min="1950-01-01"
             @change="save"
           ></v-date-picker>
         </v-menu>
+        <!-- <p class="font-weight-regular" color="grey lighten-2" v-text="birthday"></p> -->
       </v-col>
       <v-col cols="2" sm="2" offset-sm="0">
         <v-card elevation="0" class="mt-2">

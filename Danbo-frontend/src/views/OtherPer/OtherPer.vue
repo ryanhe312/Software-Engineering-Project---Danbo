@@ -20,7 +20,7 @@
                       <v-icon class="mx-16" x-large> </v-icon>
                       <v-icon class="mx-2" x-large> </v-icon>
 
-                      <v-icon class="mx-16" x-large v-if="!like_flag">
+                      <v-icon class="mx-16" color="grey" x-large v-if="!like_flag">
                         mdi-heart
                       </v-icon>
                       <v-icon
@@ -112,7 +112,7 @@
               </v-card>
             </v-col>
             <v-col cols="2" sm="6" offset-sm="0">
-              <TweetList ref="tweetlist" :get_tweets_api="'/blog/getBlog'" />
+               <TweetList ref="tweetlist" :get_tweets_api="tweetlist_api" :get_tweets_formdata="tweetlist_formdata"/>
             </v-col>
           </v-row>
         </div>
@@ -140,6 +140,8 @@ export default {
     like_flag: false,
     address: "",
     images: "https://cdn.vuetifyjs.com/images/lists/ali.png",
+    tweetlist_api:"",
+    tweetlist_formdata:"",
   }),
   async mounted() {
     await this.getdata();
@@ -149,12 +151,16 @@ export default {
     this.req_gender();
     this.req_birthday();
     this.req_email();
+    this.req_profile();
   },
   methods: {
     async getdata() {
       this.user = this.$route.query.user;
+      var formdata = new FormData();
+      formdata.append("username", this.user);
+      this.tweetlist_api= "/blog/getBlog";
+      this.tweetlist_formdata = formdata;
     },
-
     change: function (i) {
       console.log(this.$route.path, i);
       if (this.$route.path == "/follow") {
@@ -288,6 +294,7 @@ export default {
         }
       }
     },
+    //获取邮箱
     req_email: function () {
       var formdata = new FormData();
       formdata.append("username", this.user);
@@ -306,6 +313,27 @@ export default {
         this.email = data.data;
       } else {
         this.eamil = data.data;
+      }
+    },
+    //获取头像
+    req_profile: function () {
+      var formdata = new FormData();
+      formdata.append("username", this.user);
+      this.axios
+        .post("/user/getProfile", formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((response) => this.ack_profile(response))
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    ack_profile: function (response) {
+      var data = response.data;
+      if (data.error_code == 200) {
+        this.images = "http://127.0.0.1:8000/media/" + data.data;
+      } else {
+        this.images = "https://cdn.vuetifyjs.com/images/lists/ali.png";
       }
     },
     gohome() {

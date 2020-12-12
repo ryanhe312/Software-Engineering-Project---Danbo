@@ -7,46 +7,92 @@
         <v-row>
           <v-col>
             <v-card class="mx-auto" max-width="700">
-              <v-list>
+              <v-subheader>USERS</v-subheader>
+              <v-simple-table>
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th class="text-left">Username</th>
+                      <th class="text-left">Nickname</th>
+                      <th class="text-left">Signature</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="(item, i) in searchuser"
+                      :key="i"
+                      @click="postuserdata(item.username)"
+                    >
+                      <td>{{ item.username }}</td>
+                      <td>{{ item.nickname }}</td>
+                      <td>{{ item.signature }}</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+              <!--  <v-list>
                 <v-subheader>USERS</v-subheader>
                 <v-list-item-group v-model="user">
                   <v-list-item
                     v-for="(item, i) in searchuser"
                     :key="i"
-                    @click="postuserdata(item)"
+                    @click="postuserdata(item.username)"
                   >
                     <v-list-item-icon>
                       <v-icon></v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
-                      <v-list-item-title v-text="item"></v-list-item-title>
+                      
+                      <v-list-item-title v-text="item.username"></v-list-item-title>
+                      <v-list-item-title v-text="item.nickname"></v-list-item-title>
                       <v-divider></v-divider>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list-item-group>
-              </v-list>
+              </v-list> -->
             </v-card>
           </v-col>
           <v-col>
             <v-card class="mx-auto" max-width="700">
-              <v-list>
+              <v-subheader>TOPICS</v-subheader>
+              <v-simple-table>
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th class="text-left">Topic</th>
+                      <th class="text-left">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="(item, i) in searchtopic"
+                      :key="i"
+                      @click="posttopicdata(item.topic)"
+                    >
+                      <td>{{ item.topic }}</td>
+                      <td>{{ item.time }}</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
+              <!--  <v-list>
                 <v-subheader>TOPICS</v-subheader>
                 <v-list-item-group v-model="topic">
                   <v-list-item
                     v-for="(item, i) in searchtopic"
                     :key="i"
-                    @click="posttopicdata(item)"
+                    @click="posttopicdata(item.topic)"
                   >
                     <v-list-item-icon>
                       <v-icon v-text="item.icon"></v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
-                      <v-list-item-title v-text="item"></v-list-item-title>
+                      <v-list-item-title v-text="item.topic"></v-list-item-title>
                       <v-divider></v-divider>
                     </v-list-item-content>
                   </v-list-item>
                 </v-list-item-group>
-              </v-list>
+              </v-list> -->
             </v-card>
           </v-col>
         </v-row>
@@ -66,9 +112,9 @@ export default {
   },
   data: () => ({
     //items1: [],
-    searchuser: global.information["searchuser"],
+    searchuser: [],
     //items2: [],
-    searchtopic: global.information["searchtopic"],
+    searchtopic: [],
     user: "",
     topic: "",
   }),
@@ -76,19 +122,12 @@ export default {
     await this.getdata();
     await this.request_data("searchuser");
     await this.request_data("searchtopic");
-    await this.update();
+    this.searchuser = global.information["searchuser"];
+    this.searchtopic = global.information["searchtopic"];
   },
   methods: {
     async getdata() {
       global.information["keyword"] = this.$route.query.keyword;
-    },
-    async update() {
-      for (var i = 0; i < global.information["searchuser"].length; i = i + 1) {
-        this.searchuser[i] = global.information["searchuser"][i]["username"];
-      }
-      for (var j = 0; j < global.information["searchtopic"].length; j = j + 1) {
-        this.searchtopic[j] = global.information["searchtopic"][j]["topic"];
-      }
     },
     //搜索用户
     /*async req_user() {
