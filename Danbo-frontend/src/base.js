@@ -71,6 +71,7 @@ async function req_all() {
   request_data("address");
   request_data("gender");
   request_data("birthday");
+  request_data("profile");
 }
 
 

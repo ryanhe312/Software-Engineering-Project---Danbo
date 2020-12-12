@@ -88,11 +88,10 @@ export default {
       { text: "Setting", icon: "mdi-wrench" },
       { text: "Security", icon: "mdi-security" },
       { text: "About us", icon: "mdi-emoticon-kiss-outline" },
-      //{ text: "Sign out", icon: "mdi-arrow-down-bold-circle" },
     ],
   }),
-  created() {
-     //this.$parent.req_all();
+  mounted() {
+     this.$parent.req_all();
   },
   methods: {
     //登出
@@ -108,14 +107,15 @@ export default {
     },
     ack_quit: function (response) {
       var data = response.data;
-      alert(data.error_code);
-      if (data.error_code == 200) {
+      alert("成功退出登录\n");
+        this.$router.push("/");
+     /*  if (data.error_code == 200) {
         alert("成功退出登录\n");
         this.$router.push("/");
       } else {
         alert("当前未登录\n");
         this.$router.push("/");
-      }
+      } */
     },
   },
 };

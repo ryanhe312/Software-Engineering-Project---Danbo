@@ -34,7 +34,7 @@ export default {
   data: () => ({
     user: global.information["username"],
     //profile:require("../../../../danbo.png"),
-    profile:"http://127.0.0.1:8000/media/"+global.information["profile"],
+    profile:"http://127.0.0.1:8000/media/" + global.information["profile"],
     value:"",
     rules: [
       (value) =>
