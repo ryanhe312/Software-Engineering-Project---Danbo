@@ -173,9 +173,11 @@ export default {
     },*/
     postuserdata(item) {
       this.$router.push({ path: "/otherper", query: { user: item } });
+      window.location.reload()
     },
     posttopicdata(item) {
       this.$router.push({ path: "/", query: { topicname: item } });
+      window.location.reload()
     },
   },
 };

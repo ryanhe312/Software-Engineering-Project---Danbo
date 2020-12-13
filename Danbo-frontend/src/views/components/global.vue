@@ -35,7 +35,7 @@ const request_api = {
     "allBlogs":["/blog/refreshBlogs",[]],
     "followers":["/user/getFollowers",["username"]],
     "followees":["/user/getFollowees",["username"]],
-    "hotTopics":["/blog/gethotTopics",[]],
+    "hotTopics":["/blog/hotTopics",[]],
     "topicBlogs":["/blog/getTopicBlogs",["currentTopic"]],
     "searchuser":["/user/searchUser",["keyword"]],
     "searchtopic":["/blog/searchTopic",["keyword"]],

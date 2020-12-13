@@ -28,7 +28,7 @@ async function request_data(needed_data) {
   var api = request[0];
   var required_data = generate_data(request[1]);
 
-//   console.log(required_data);
+  // console.log(required_data);
   //request needed data
   await axios.post(api, required_data).then((response) => {
     var data = response.data;

@@ -20,9 +20,10 @@
                 <v-list-item-title>
                   <router-link :to="{path:'/otherper',query:{user:key}}"> {{key}} </router-link>
                 </v-list-item-title>
-                <v-list-item-subtitle
+                  <v-list-item-subtitle
                   v-html="value.signature"
                 ></v-list-item-subtitle>
+                
               </v-list-item-content>
             </v-list-item>
 
@@ -65,86 +66,6 @@ export default {
   data: () => ({
     followers:"",
     follow_view:false,
-    items: [
-      { header: "Following" },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-        title: "Brunch this weekend?",
-        subtitle: `<span class="font-weight-bold">Hello</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-        title: "Brunch this weekend?",
-        subtitle: `<span class="font-weight-bold">Hi</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-        title: "Brunch this weekend?",
-        subtitle: `<span class="font-weight-bold">Complete</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-        title: "Brunch this weekend?",
-        subtitle: `<span class="font-weight-bold">Yes</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-        title: "Brunch this weekend?",
-        subtitle: `<span class="font-weight-bold">Hello</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-        title: "Brunch this weekend?",
-        subtitle: `<span class="font-weight-bold">Hi</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-        title: "Brunch this weekend?",
-        subtitle: `<span class="font-weight-bold">Complete</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-        title: "Brunch this weekend?",
-        subtitle: `<span class="font-weight-bold">Yes</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-        title: "Brunch this weekend?",
-        subtitle: `<span class="font-weight-bold">Hello</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-        title: "Brunch this weekend?",
-        subtitle: `<span class="font-weight-bold">Hi</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-        title: "Brunch this weekend?",
-        subtitle: `<span class="font-weight-bold">Complete</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-        title: "Brunch this weekend?",
-        subtitle: `<span class="font-weight-bold">Yes</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-      },
-      { divider: true, inset: true },
-      {
-        avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-        title: "Brunch this weekend?",
-        subtitle: `<span class="font-weight-bold">Ok</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-      },
-    ],
   }),
   created: function(){
     this.follow_view = this.$route.query.follow_view;
@@ -163,6 +84,7 @@ export default {
       this.followers = global.information["followees"];
       console.log("followee",this.followers);
     }
+
       
   },
   // mounted: async function(){

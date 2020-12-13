@@ -45,7 +45,7 @@
 
         <v-expansion-panels popout>
           <v-expansion-panel
-            v-for="(message, i) in messages"
+            v-for="(message, i) in hotTopics"
             :key="i"
             hide-actions
           >
@@ -53,23 +53,14 @@
               <v-row align="center" class="">
                 <v-col cols="8" sm="4" md="2">
                   <v-avatar size="36px">
-                    <img
-                      v-if="message.avatar"
-                      alt="Avatar"
-                      src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-                    />
-                    <v-icon
-                      v-else
-                      :color="message.color"
-                      v-text="message.icon"
-                    ></v-icon>
+                    <v-icon>mdi-tag</v-icon>
                   </v-avatar>
                 </v-col>
-
                 <v-col class="hidden-xs-only" sm="5" md="5">
-                  <strong v-html="message.name"></strong>
-                  <span v-if="message.total" class="grey--text">
-                    &nbsp;({{ message.total }})
+
+                  <strong v-html="message.topic" @click=toTopic(message.topic)></strong>
+                  <span class="grey--text">
+                    &nbsp;({{ message.count }})
                   </span>
                 </v-col>
               </v-row>
@@ -77,7 +68,7 @@
 
             <v-expansion-panel-content>
               <v-divider></v-divider>
-              <v-card-text v-text="lorem"></v-card-text>
+              <v-card-text v-text="message.time"></v-card-text>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -95,33 +86,6 @@ export default {
 
   data: () => ({
     hotTopics: global.information["hotTopics"],
-    messages: [
-      {
-        avatar: "https://avatars0.githubusercontent.com/u/9064066?v=4&s=460",
-        name: "John Leider",
-        title: "Welcome to Vuetify!",
-        excerpt: "Thank you for joining our community...",
-      },
-      {
-        color: "red",
-        icon: "mdi-account-multiple",
-        name: "Social",
-        new: 1,
-        total: 3,
-        title: "Twitter",
-      },
-      {
-        color: "teal",
-        icon: "mdi-tag",
-        name: "Promos",
-        new: 2,
-        total: 4,
-        title: "Shop your way",
-        exceprt: "New deals available, Join Today",
-      },
-    ],
-    lorem:
-      "Lorem ipsum dolor sit amet, at aliquam vivendum vel, everti delicatissimi cu eos. Dico iuvaret debitis mel an, et cum zril menandri. Eum in consul legimus accusam. Ea dico abhorreant duo, quo illum minimum incorrupte no, nostro voluptaria sea eu. Suas eligendi ius at, at nemore equidem est. Sed in error hendrerit, in consul constituam cum.",
   }),
 
   computed: {},
@@ -129,9 +93,15 @@ export default {
   mounted: async function() {
     await this.request_data("hotTopics");
     this.hotTopics = global.information["hotTopics"];
-    // console.log(this.username)
+    console.log(this.hotTopics)
   },
 
-  methods: {},
+  methods: {
+    toTopic : function(topic){
+      this.$router.push({path: "topic", query:{currentTopic: topic}})
+      if(this.$route.path == "/topic")
+        window.location.reload();
+    },
+  },
 };
 </script>

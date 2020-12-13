@@ -20,14 +20,15 @@
                       <v-icon class="mx-16" x-large> </v-icon>
                       <v-icon class="mx-2" x-large> </v-icon>
 
-                      <v-icon class="mx-16" color="grey" x-large v-if="!like_flag">
+                      <v-icon class="mx-16" color="grey" x-large v-if="!follow_flag" @click="follow_person">
                         mdi-heart
                       </v-icon>
                       <v-icon
                         class="mx-16"
                         color="red"
                         x-large
-                        v-if="like_flag"
+                        v-if="follow_flag"
+                        @click="follow_person"
                       >
                         mdi-heart
                       </v-icon>
@@ -36,7 +37,7 @@
 
                     <v-card-title class="grey--text pl-16 pt-12">
                       <div class="display-1 pl-12 pt-12" v-text="name"></div>
-                      <div>
+                      <!-- <div>
                         <v-card-actions>
                           <v-btn text color="primary" @click="change(0)">
                             Following
@@ -45,7 +46,7 @@
                             Followers
                           </v-btn>
                         </v-card-actions>
-                      </div>
+                      </div> -->
                     </v-card-title>
                   </v-row>
                 </v-img>
@@ -122,6 +123,7 @@
 </template>
 
 <script>
+import global from "../components/global";
 export default {
   name: "otherperson",
 
@@ -142,6 +144,7 @@ export default {
     images: "https://cdn.vuetifyjs.com/images/lists/ali.png",
     tweetlist_api:"",
     tweetlist_formdata:"",
+    follow_flag:false,
   }),
   async mounted() {
     await this.getdata();
@@ -152,8 +155,54 @@ export default {
     this.req_birthday();
     this.req_email();
     this.req_profile();
+    this.check_follow();
   },
   methods: {
+    check_follow: async function(){
+      await this.request_data("username");
+      await this.request_data("followers");
+      var follows = Object.keys(global.information["followers"]);
+      // console.log(follows,this.user)
+      if (follows.indexOf(this.user) >= 0)
+        this.follow_flag = true;
+    },
+
+    follow_person: async function () {
+      // await this.check_follow();
+      var formdata = new FormData();
+      formdata.append("to_username", this.user);
+
+      if (this.follow_flag) {
+        //已关注
+        await this.axios.post("/user/cancelFollow", formdata, {
+            headers: { "Content-Type": "multipart/form-data" },
+          }).then((response) => {
+            console.log("what",data)
+            var data = response.data;
+            if (data.error_code == 200) {
+              console.log("changed")
+              this.follow_flag = !this.follow_flag;
+            }
+          });
+      } 
+      else {
+        //未关注
+        await this.axios
+          .post("/user/follow", formdata, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+          .then((response) => {
+            console.log("what")
+            var data = response.data;
+            if (data.error_code == 200) {
+              console.log("changed")
+              this.follow_flag = !this.follow_flag;
+            }
+          });
+      }
+    },
+
+
     async getdata() {
       this.user = this.$route.query.user;
       var formdata = new FormData();
