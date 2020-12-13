@@ -156,6 +156,7 @@ export default {
     this.req_email();
     this.req_profile();
     this.check_follow();
+    this.$refs.tweetlist.get_tweets();
   },
   methods: {
     check_follow: async function(){
