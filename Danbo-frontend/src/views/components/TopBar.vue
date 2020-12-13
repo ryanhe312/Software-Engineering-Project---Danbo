@@ -47,8 +47,8 @@
 
       <template v-slot:extension>
         <v-tabs grow v-model="now">
-          <v-tab v-for="tab of tabs" :key="tab.id">
-           <router-link :to="tab.link"> {{tab.name}} </router-link>
+          <v-tab v-for="tab of tabs" :key="tab.id" :value="tab.link" @click="change(tab.link)">
+           {{tab.name}}
           </v-tab>
 
           <!-- <v-tab key="home">
@@ -71,14 +71,15 @@ export default {
   },
 
   data: () => ({
-    now:2,
+    now:"",
     keyword:"",
     tabs:[
-      { id:1, name:"My Zone", link:"/home"},
-      { id:2, name:"Hot", link:"/topic"}
+      { id:1, name:"My Zone", link:"home"},
+      { id:2, name:"Hot", link:"topic"}
     ]
 }),
   mounted: function(){
+    console.log(this.$route.path)
     this.now = "topic";
   },
 
@@ -86,6 +87,9 @@ export default {
   },
 
   methods: {
+    change: function(path){
+      this.$router.push("/"+path);
+    },
     async search() {
       this.$router.push({path:"/blank", query:{keyword:this.keyword}});
     },

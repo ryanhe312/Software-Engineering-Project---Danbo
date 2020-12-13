@@ -57,7 +57,7 @@ export default {
     ack_ask_login_user: function (response) {
       if (response.data.error_code == 200) {
         this.req_all();
-        alert("已经登录！");
+        // alert("已经登录！");
         this.$router.push("/home");
       }
     },
