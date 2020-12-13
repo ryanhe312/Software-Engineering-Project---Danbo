@@ -45,20 +45,20 @@
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
 
-      <template v-slot:extension>
-        <v-tabs grow v-model="now">
+      <!-- <template v-slot:extension>
+        <v-tabs v-model="now">
           <v-tab v-for="tab of tabs" :key="tab.id" :value="tab.link" @click="change(tab.link)">
            {{tab.name}}
           </v-tab>
 
-          <!-- <v-tab key="home">
+          <v-tab key="home">
             <router-link to="/home"> My zone </router-link>
           </v-tab>
           <v-tab key="topic">
             <router-link to="/topic"> Hot </router-link>
-          </v-tab> -->
+          </v-tab>
         </v-tabs>
-      </template>
+      </template> -->
     </v-app-bar>
 </template>
 

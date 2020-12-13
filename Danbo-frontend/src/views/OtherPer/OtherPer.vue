@@ -178,11 +178,11 @@ export default {
         await this.axios.post("/user/cancelFollow", formdata, {
             headers: { "Content-Type": "multipart/form-data" },
           }).then((response) => {
-            console.log("what",data)
+            console.log("what",response)
             var data = response.data;
+            this.follow_flag = !this.follow_flag;
             if (data.error_code == 200) {
               console.log("changed")
-              this.follow_flag = !this.follow_flag;
             }
           });
       } 
@@ -195,9 +195,10 @@ export default {
           .then((response) => {
             console.log("what")
             var data = response.data;
+            this.follow_flag = !this.follow_flag;
             if (data.error_code == 200) {
               console.log("changed")
-              this.follow_flag = !this.follow_flag;
+              
             }
           });
       }

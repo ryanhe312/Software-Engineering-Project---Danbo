@@ -57,7 +57,7 @@
 
           <v-card-text class="bold">
             <v-chip-group active-class="primary--text" column>
-              <v-chip v-for="tag in tweet['tags']" :key="tag" label to="/home" @click.native="refresh">
+              <v-chip v-for="tag in tweet['tags']" :key="tag" label to="/topic" @click.native="refresh">
                <router-link :to="{path:'/topic',query:{currentTopic:tag}}"> {{ tag }} </router-link>
               </v-chip>
             </v-chip-group>
