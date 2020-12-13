@@ -28,7 +28,7 @@
               
               <v-row class="mb-4"></v-row>
 
-              <TweetList />
+              <TweetList ref="tweetlist" :get_tweets_api="tweetlist_api" :get_tweets_formdata="tweetlist_formdata"/>
             </v-col>
           </v-row>
         </v-container>
@@ -49,14 +49,26 @@ export default {
   },
 
   data: () => ({
-    currentTopic: this.$route.query.currentTopic,
+    currentTopic: "",
+    Share_text: "",
+    tweetlist_api: "/blog/getTopicBlogs",
+    tweetlist_formdata: "",
   }),
   mounted: async function() {
+    this.currentTopic = this.$route.query.currentTopic;
+    var formdata = new FormData();
+    formdata.append("topic",this.currentTopic);
+    this.tweetlist_formdata = formdata;
+    // console.log(this.currentTopic)
   },
   methods: {
       change: function(){
       window.location.reload()
       // this.reload();
+    },
+    refresh_tweetlist: async function () {
+      // console.log("yes")
+      this.$refs.tweetlist.get_tweets();
     },
   },
 };

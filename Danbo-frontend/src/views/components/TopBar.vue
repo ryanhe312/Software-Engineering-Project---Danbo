@@ -46,11 +46,11 @@
       </v-btn>
 
       <template v-slot:extension>
-        <v-tabs align-with-title>
-          <v-tab>
+        <v-tabs align-with-title v-model="topic">
+          <v-tab title="home">
             <router-link to="/home"> My zone </router-link>
           </v-tab>
-          <v-tab>
+          <v-tab title="topic">
             <router-link to="/topic"> Hot </router-link>
           </v-tab>
         </v-tabs>
@@ -90,7 +90,15 @@ export default {
   text-decoration: none;
   color:rgb(255, 255, 255);
 }
+.router-link-hover{
+  text-decoration: none;
+  color:black;
+}
  a {
   text-decoration: none;
  }
+.v-application a{
+  color:white;
+}
+
 </style>

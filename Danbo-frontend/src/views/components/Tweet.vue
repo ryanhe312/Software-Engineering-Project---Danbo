@@ -13,7 +13,11 @@
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title>{{ tweet["origin_user"] }}</v-list-item-title>
+              <v-list-item-title>
+                <router-link :to="{path:'/otherper',query:{user:this.tweet['origin_user']}}">
+                  {{ tweet["origin_user"] }}
+                </router-link>
+              </v-list-item-title>
             </v-list-item-content>
           </v-card-title>
 
@@ -53,8 +57,8 @@
 
           <v-card-text class="bold">
             <v-chip-group active-class="primary--text" column>
-              <v-chip v-for="tag in tweet['tags']" :key="tag" label to="/home">
-                {{ tag }}
+              <v-chip v-for="tag in tweet['tags']" :key="tag" label to="/home" @click.native="refresh">
+               <router-link :to="{path:'/topic',query:{currentTopic:tag}}"> {{ tag }} </router-link>
               </v-chip>
             </v-chip-group>
           </v-card-text>
@@ -122,6 +126,10 @@ export default {
   },
 
   methods: {
+    refresh:function(){
+// 　　　　　　this.$router.go(0);  
+      window.location.reload()
+　　　　},
     get_like: async function () {
       var formdata = new FormData();
       formdata.append("blog_id", this.tweet_id);
