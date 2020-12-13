@@ -27,7 +27,7 @@
               </v-card>
               
               <v-row class="mb-4"></v-row>
-
+              <Edit @refresh_content="refresh_tweetlist"/>
               <TweetList ref="tweetlist" :get_tweets_api="tweetlist_api" :get_tweets_formdata="tweetlist_formdata"/>
             </v-col>
           </v-row>
@@ -46,6 +46,7 @@ export default {
     TopBar: () => import("../components/TopBar"),
     TweetList: () => import("../components/TweetList"),
     SideBar: () => import("../components/SideBar"),
+    Edit: () => import("../components/Edit"),
   },
 
   data: () => ({
@@ -53,12 +54,18 @@ export default {
     Share_text: "",
     tweetlist_api: "/blog/getTopicBlogs",
     tweetlist_formdata: "",
+    hotTopics: global.information["hotTopics"],
   }),
   mounted: async function() {
     this.currentTopic = this.$route.query.currentTopic;
+    // console.log(this.currentTopic)
     var formdata = new FormData();
     formdata.append("topic",this.currentTopic);
     this.tweetlist_formdata = formdata;
+    if (this.currentTopic==null)
+      this.currentTopic="Choose one topic!", console.log(this.currentTopic);
+    // else
+      // this.refresh_tweetlist();
     // console.log(this.currentTopic)
   },
   methods: {

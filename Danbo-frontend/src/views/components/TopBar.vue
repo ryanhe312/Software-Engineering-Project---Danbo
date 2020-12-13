@@ -46,13 +46,17 @@
       </v-btn>
 
       <template v-slot:extension>
-        <v-tabs align-with-title v-model="topic">
-          <v-tab title="home">
+        <v-tabs grow v-model="now">
+          <v-tab v-for="tab of tabs" :key="tab.id">
+           <router-link :to="tab.link"> {{tab.name}} </router-link>
+          </v-tab>
+
+          <!-- <v-tab key="home">
             <router-link to="/home"> My zone </router-link>
           </v-tab>
-          <v-tab title="topic">
+          <v-tab key="topic">
             <router-link to="/topic"> Hot </router-link>
-          </v-tab>
+          </v-tab> -->
         </v-tabs>
       </template>
     </v-app-bar>
@@ -67,8 +71,16 @@ export default {
   },
 
   data: () => ({
+    now:2,
     keyword:"",
+    tabs:[
+      { id:1, name:"My Zone", link:"/home"},
+      { id:2, name:"Hot", link:"/topic"}
+    ]
 }),
+  mounted: function(){
+    this.now = "topic";
+  },
 
   computed: {
   },
