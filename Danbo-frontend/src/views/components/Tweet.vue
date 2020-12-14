@@ -8,7 +8,7 @@
               <v-img
                 class="elevation-6"
                 alt=""
-                src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+                :src="profile"
               ></v-img>
             </v-list-item-avatar>
 
@@ -107,9 +107,11 @@ export default {
       tweet_id: 0,
       tweet: this.tweet_content,
       nickname: "",
+      profile: "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
       like_usernames: [],
       like_num: 0,
       like_flag: false,
+      url_prefix: "http://127.0.0.1:8000/media/",
     };
   },
 
@@ -119,6 +121,7 @@ export default {
       this.tweet_id = this.tweet["id"];
       this.get_like();
       this.get_nickname(this.tweet["origin_user"]);
+      this.get_profile(this.tweet["origin_user"]);
     },
   },
 
@@ -128,9 +131,24 @@ export default {
     this.tweet_id = this.tweet["id"];
     this.get_like();
     this.get_nickname(this.tweet["origin_user"]);
+    this.get_profile(this.tweet["origin_user"]);
   },
 
   methods: {
+    get_profile: async function (username) {
+      var formdata = new FormData();
+      formdata.append("username", username);
+      await this.axios
+        .post("/user/getProfile", formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((response) => {
+          var data = response.data;
+          if (data.error_code == 200) {
+            this.profile = this.url_prefix + data.data;
+          }
+        });
+    },
     get_nickname: async function (username) {
       var formdata = new FormData();
       formdata.append("username", username);
@@ -195,7 +213,7 @@ export default {
       }
     },
     complete_image_url: function (rel_url) {
-      var url = "http://127.0.0.1:8000/media/" + rel_url;
+      var url = this.url_prefix + rel_url;
       return url;
     },
   },
