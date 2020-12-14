@@ -29,6 +29,11 @@ export default {
   data: () => ({
     tweets: [],
   }),
+  watch: {
+    get_tweets_formdata(curVal, oldVal) {
+      this.get_tweets();
+    },
+  },
   computed: {},
   mounted() {
     this.get_tweets();
@@ -43,7 +48,6 @@ export default {
           var data = response.data;
           if (data.error_code == 200) {
             this.tweets = data.data;
-            console.log(this.tweets.length);
           }
         });
     },

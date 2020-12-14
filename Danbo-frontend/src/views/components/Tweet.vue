@@ -15,7 +15,7 @@
             <v-list-item-content>
               <v-list-item-title>
                 <router-link :to="{path:'/otherper',query:{user:this.tweet['origin_user']}}">
-                  {{ tweet["origin_user"] }}
+                  {{ this.nickname }}
                 </router-link>
               </v-list-item-title>
             </v-list-item-content>
@@ -57,8 +57,8 @@
 
           <v-card-text class="bold">
             <v-chip-group active-class="primary--text" column>
-              <v-chip v-for="tag in tweet['tags']" :key="tag" label to="/topic" @click.native="refresh">
-               <router-link :to="{path:'/topic',query:{currentTopic:tag}}"> {{ tag }} </router-link>
+              <v-chip v-for="tag in tweet['tags']" :key="tag" label :to="{path:'/topic',query:{currentTopic:tag}}">
+               {{ tag }}
               </v-chip>
             </v-chip-group>
           </v-card-text>
@@ -106,6 +106,7 @@ export default {
     return {
       tweet_id: 0,
       tweet: this.tweet_content,
+      nickname: "",
       like_usernames: [],
       like_num: 0,
       like_flag: false,
@@ -115,6 +116,9 @@ export default {
   watch: {
     tweet_content(curVal, oldVal) {
       this.tweet = curVal;
+      this.tweet_id = this.tweet["id"];
+      this.get_like();
+      this.get_nickname(this.tweet["origin_user"]);
     },
   },
 
@@ -123,13 +127,24 @@ export default {
   mounted() {
     this.tweet_id = this.tweet["id"];
     this.get_like();
+    this.get_nickname(this.tweet["origin_user"]);
   },
 
   methods: {
-    refresh:function(){
-// 　　　　　　this.$router.go(0);  
-      window.location.reload()
-　　　　},
+    get_nickname: async function (username) {
+      var formdata = new FormData();
+      formdata.append("username", username);
+      await this.axios
+        .post("/user/getNickname", formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((response) => {
+          var data = response.data;
+          if (data.error_code == 200) {
+            this.nickname = data.data;
+          }
+        });
+    },
     get_like: async function () {
       var formdata = new FormData();
       formdata.append("blog_id", this.tweet_id);
