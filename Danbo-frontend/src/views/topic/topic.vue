@@ -56,6 +56,14 @@ export default {
     tweetlist_formdata: "",
     hotTopics: global.information["hotTopics"],
   }),
+  watch: {
+    '$route' (to, from) {
+      this.currentTopic = to.query.currentTopic;
+      var formdata = new FormData();
+      formdata.append("topic",this.currentTopic);
+      this.tweetlist_formdata = formdata;
+    },
+  }, 
   mounted: async function() {
     this.currentTopic = this.$route.query.currentTopic;
     // console.log(this.currentTopic)
