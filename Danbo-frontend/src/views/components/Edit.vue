@@ -172,12 +172,14 @@ export default {
       //request needed data
       await this.axios.post(api, formdata).then((response) => {
         var data = response.data;
-        if (data.error_code == 200) 
+        if (data.message)
           alert(data.message);
-        this.Share_text = "";
-        this.images = [];
-        this.tags = [];
-        this.$emit("refresh_content");
+        if (data.error_code == 200){
+          this.Share_text = "";
+          this.images = [];
+          this.tags = [];
+          this.$emit("refresh_content");
+        } 
       });
     },
   },

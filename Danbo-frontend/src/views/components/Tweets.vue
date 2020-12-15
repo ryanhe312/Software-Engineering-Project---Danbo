@@ -18,7 +18,6 @@ export default {
   data() {
     var formdata = new FormData();
     return {
-      Share_text: "",
       tweetlist_api: "/blog/refreshBlogs",
       tweetlist_formdata: formdata,
     };
