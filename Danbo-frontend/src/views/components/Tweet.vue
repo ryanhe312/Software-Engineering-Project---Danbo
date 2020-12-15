@@ -79,14 +79,37 @@
                 </v-icon>
                 <span class="subheading mr-2">{{ this.like_num }}</span>
 
-                <v-icon class="mr-1"> mdi-comment </v-icon>
-                <span class="subheading mr-2">10</span>
+                <v-icon class="mr-1" v-if="!show_comments" @click="show_comments=!show_comments">
+                  mdi-comment
+                </v-icon>
+                <v-icon
+                  class="mr-1"
+                  color="blue"
+                  v-if="show_comments"
+                  @click="show_comments=!show_comments"
+                >
+                  mdi-comment
+                </v-icon>
+                <span class="subheading mr-2"> {{ this.comments.length }} </span>
 
-                <v-icon class="mr-1"> mdi-share-variant </v-icon>
-                <span class="subheading">45</span>
+                <v-icon class="mr-1" v-if="!show_repost" @click="show_repost=!show_repost">
+                  mdi-share-variant
+                </v-icon>
+                <v-icon
+                  class="mr-1"
+                  color="blue"
+                  v-if="show_repost"
+                  @click="show_repost=!show_repost"
+                >
+                  mdi-share-variant
+                </v-icon>
+                <!-- <span class="subheading">45</span> -->
               </v-row>
             </v-list-item>
           </v-card-actions>
+
+          
+          <Comments :comment_data="comments" v-if="show_comments" />
         </v-col>
       </v-row>
     </v-container>
@@ -100,7 +123,9 @@ import global from "../components/global";
 export default {
   name: "tweet",
   props: ["tweet_content"],
-  components: {},
+  components: {
+    Comments: () => import("../components/Comments")
+  },
 
   data() {
     return {
@@ -111,6 +136,10 @@ export default {
       like_usernames: [],
       like_num: 0,
       like_flag: false,
+      comments: [],
+      show_comments: false,
+      new_comment: "",
+      show_repost: false,
       url_prefix: "http://127.0.0.1:8000/media/",
     };
   },
@@ -122,19 +151,35 @@ export default {
       this.get_like();
       this.get_nickname(this.tweet["origin_user"]);
       this.get_profile(this.tweet["origin_user"]);
+      this.get_comments();
     },
   },
 
   computed: {},
 
-  mounted() {
+  mounted: async function () {
     this.tweet_id = this.tweet["id"];
-    this.get_like();
-    this.get_nickname(this.tweet["origin_user"]);
-    this.get_profile(this.tweet["origin_user"]);
+    await this.get_like();
+    await this.get_nickname(this.tweet["origin_user"]);
+    await this.get_profile(this.tweet["origin_user"]);
+    await this.get_comments();
   },
 
   methods: {
+    get_comments: async function () {
+      var formdata = new FormData();
+      formdata.append("blog_id", this.tweet_id);
+      await this.axios
+        .post("/blog/getComments", formdata, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((response) => {
+          var data = response.data;
+          if (data.error_code == 200) {
+            this.comments = data.data;
+          }
+        });
+    },
     get_profile: async function (username) {
       var formdata = new FormData();
       formdata.append("username", username);
