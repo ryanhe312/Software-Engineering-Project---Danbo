@@ -259,6 +259,7 @@ export default {
         if (data.message) alert(data.message);
         if (data.error_code == 200) {
           this.new_repost = "";
+          this.$emit("refresh_tweetlist");
         }
       });
     },
