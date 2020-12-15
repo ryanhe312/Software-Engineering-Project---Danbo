@@ -10,7 +10,7 @@
       v-for="(tweet, i) in tweets"
       :key="i"
     >
-      <Tweet :tweet_content="tweet" />
+      <Tweet :tweet_content="tweet" @refresh_tweetlist="get_tweets"/>
     </v-card>
     <!-- </v-row> -->
   </div>
