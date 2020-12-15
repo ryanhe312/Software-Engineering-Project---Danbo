@@ -1,22 +1,31 @@
 <template>
   <div>
     <v-container fluid>
-      <v-row justify="center">
+      <v-row justify="center" v-if="tweet['users'].length == 0">
         <v-col cols="12">
           <v-card-title>
             <v-list-item-avatar color="grey darken-2">
-              <v-img class="elevation-6" alt="" :src="profile"></v-img>
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title>
-                <router-link
+              <router-link
+                  tag="img"
+                  :src="origin_profile"
                   :to="{
                     path: '/otherper',
                     query: { user: this.tweet['origin_user'] },
                   }"
                 >
-                  {{ this.nickname }}
+              </router-link>
+            </v-list-item-avatar>
+
+            <v-list-item-content>
+              <v-list-item-title>
+                <router-link
+                  style="display: inline-block;text-decoration:none;"
+                  :to="{
+                    path: '/otherper',
+                    query: { user: this.tweet['origin_user'] },
+                  }"
+                >
+                  {{ this.origin_nickname }}
                 </router-link>
               </v-list-item-title>
             </v-list-item-content>
@@ -189,7 +198,11 @@ export default {
     return {
       tweet_id: 0,
       tweet: this.tweet_content,
+      origin_nickname: "",
+      origin_profile:
+        "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
       nickname: "",
+      nickname_list: [],
       profile:
         "https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light",
       like_usernames: [],
@@ -211,8 +224,8 @@ export default {
       this.tweet = curVal;
       this.tweet_id = this.tweet["id"];
       this.get_like();
-      this.get_nickname(this.tweet["origin_user"]);
-      this.get_profile(this.tweet["origin_user"]);
+      this.get_origin_nickname(this.tweet["origin_user"]);
+      this.get_origin_profile(this.tweet["origin_user"]);
       this.get_comments();
     },
   },
@@ -222,8 +235,8 @@ export default {
   mounted: async function () {
     this.tweet_id = this.tweet["id"];
     await this.get_like();
-    await this.get_nickname(this.tweet["origin_user"]);
-    await this.get_profile(this.tweet["origin_user"]);
+    await this.get_origin_nickname(this.tweet["origin_user"]);
+    await this.get_origin_profile(this.tweet["origin_user"]);
     await this.get_comments();
   },
 
@@ -296,7 +309,7 @@ export default {
           }
         });
     },
-    get_profile: async function (username) {
+    get_origin_profile: async function (username) {
       var formdata = new FormData();
       formdata.append("username", username);
       await this.axios
@@ -306,11 +319,11 @@ export default {
         .then((response) => {
           var data = response.data;
           if (data.error_code == 200) {
-            this.profile = this.url_prefix + data.data;
+            this.origin_profile = this.url_prefix + data.data;
           }
         });
     },
-    get_nickname: async function (username) {
+    get_origin_nickname: async function (username) {
       var formdata = new FormData();
       formdata.append("username", username);
       await this.axios
@@ -320,7 +333,7 @@ export default {
         .then((response) => {
           var data = response.data;
           if (data.error_code == 200) {
-            this.nickname = data.data;
+            this.origin_nickname = data.data;
           }
         });
     },

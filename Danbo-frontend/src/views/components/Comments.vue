@@ -21,6 +21,7 @@
         <v-list-item-content>
           <v-list-item-title>
             <router-link
+              style="display: inline-block;text-decoration:none;"
               :to="{
                 path: '/otherper',
                 query: { user: comment.username },
