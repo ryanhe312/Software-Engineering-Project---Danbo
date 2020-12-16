@@ -8,7 +8,7 @@
         <v-list-item-subtitle>{{signature}}</v-list-item-subtitle>
       </v-list-item-content>
 
-      <v-list-item-avatar tile size="80" color="grey">
+      <v-list-item-avatar tile size="80" color="grey" @click="toNew()">
         <v-img :src="profile"></v-img>
       </v-list-item-avatar>
     </v-list-item>
@@ -50,6 +50,10 @@ export default {
       this.username = global.information["username"];
       this.signature = global.information["signature"]+"";
       this.profile = "http://127.0.0.1:8000/media/"+global.information["profile"];
+    },
+    toNew: function(){
+      this.$router.push({path:"/otherper", query:{user:this.username}})
+      // this.$router.push()
     },
 
     change: function(i){

@@ -134,7 +134,7 @@ export default {
       // window.location.reload()
     },
     posttopicdata(item) {
-      this.$router.push({ path: "/", query: { topicname: item } });
+      this.$router.push({ path: "/topic", query: { currentTopic: item } });
       // window.location.reload()
     },
   },

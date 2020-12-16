@@ -12,16 +12,11 @@
             <v-col sm="6">
               <v-card color="#6495ed" dark>
                 <div class="d-flex flex-no-wrap justify-space-between">
-                  <div>
+                  <div>  
                     <v-card-title
                       class="headline"
                       v-text="currentTopic"
                     ></v-card-title>
-                    <v-card-actions>
-                      <v-btn class="ml-2 mt-5" outlined rounded small @click="change">
-                        Refresh
-                      </v-btn>
-                    </v-card-actions>
                   </div>
                 </div>
               </v-card>

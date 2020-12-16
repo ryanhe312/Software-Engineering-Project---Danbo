@@ -158,6 +158,11 @@ export default {
     this.check_follow();
     this.$refs.tweetlist.get_tweets();
   },
+  watch: {
+    '$route' (to, from) {
+      window.location.reload();
+    },
+  }, 
   methods: {
     check_follow: async function(){
       await this.request_data("username");
