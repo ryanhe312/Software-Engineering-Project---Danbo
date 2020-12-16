@@ -129,48 +129,6 @@ export default {
     async getdata() {
       global.information["keyword"] = this.$route.query.keyword;
     },
-    //搜索用户
-    /*async req_user() {
-      var formdata = new FormData();
-      formdata.append("keyword", this.keyword);
-      await this.axios
-        .post("/user/searchUser", formdata, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((response) => this.ack_user(response))
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    async ack_user(response) {
-      var data = response.data;
-      if (data.error_code == 200) {
-        this.searchuser = data.data;
-      } else {
-        this.searchuser = [];
-      }
-    },
-    //搜索话题
-    /*async req_topic() {
-      var formdata = new FormData();
-      formdata.append("keyword", this.keyword);
-      await this.axios
-        .post("/blog/searchTopic", formdata, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then((response) => this.ack_topic(response))
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-    async ack_topic(response) {
-      var data = response.data;
-      if (data.error_code == 200) {
-        this.items2 = data.data;
-      } else {
-        this.items2 = [];
-      }
-    },*/
     postuserdata(item) {
       this.$router.push({ path: "/otherper", query: { user: item } });
       // window.location.reload()

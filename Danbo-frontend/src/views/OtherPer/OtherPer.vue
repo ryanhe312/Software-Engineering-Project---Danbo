@@ -161,8 +161,8 @@ export default {
   methods: {
     check_follow: async function(){
       await this.request_data("username");
-      await this.request_data("followers");
-      var follows = Object.keys(global.information["followers"]);
+      await this.request_data("followees");
+      var follows = Object.keys(global.information["followees"]);
       // console.log(follows,this.user)
       if (follows.indexOf(this.user) >= 0)
         this.follow_flag = true;
@@ -383,6 +383,7 @@ export default {
       var data = response.data;
       if (data.error_code == 200) {
         this.images = "http://127.0.0.1:8000/media/" + data.data;
+        console.log(data.data)
       } else {
         this.images = "https://cdn.vuetifyjs.com/images/lists/ali.png";
       }

@@ -9,11 +9,7 @@
       </v-list-item-content>
 
       <v-list-item-avatar tile size="80" color="grey">
-        <v-img
-          class="elevation-6"
-          alt=""
-          src="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
-        ></v-img>
+        <v-img :src="profile"></v-img>
       </v-list-item-avatar>
     </v-list-item>
 
@@ -33,31 +29,29 @@
 import global from "../components/global"
 export default {
   name: "RightBar",
-
   components: {
-    
   },
-
   data: () => ({
     username: global.information["username"],
     signature: global.information["signature"],
+    profile:"http://127.0.0.1:8000/media/"+global.information["profile"],
   }),
-
   mounted: async function() {
     await this.req_all();
-    this.username = global.information["username"];
-    this.signature = global.information["signature"]+"";
+    await this.update();
     // console.log(this.username)
   },
-
-
   created() {
     // this.req_all();
   },
-
   computed: {},
-
   methods: {
+    update: function(){
+      this.username = global.information["username"];
+      this.signature = global.information["signature"]+"";
+      this.profile = "http://127.0.0.1:8000/media/"+global.information["profile"];
+    },
+
     change: function(i){
       console.log(this.$route.path,i)
       if(this.$route.path=="/follow")

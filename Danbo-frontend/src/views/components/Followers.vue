@@ -14,7 +14,7 @@
 
             <v-list-item :key="key">
               <v-list-item-avatar>
-                <img src="https://cdn.vuetifyjs.com/images/lists/1.jpg" />
+                <img :src="'http://127.0.0.1:8000/media/'+value.profile" />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title>
@@ -75,22 +75,15 @@ export default {
     await this.req_all();
     this.username = global.information["username"];
     if(this.follow_view=="true"){
-      await this.request_data("followers");
-      this.followers = global.information["followers"];
-      console.log("follower",this.followers);
-    }
-    else{
       await this.request_data("followees");
       this.followers = global.information["followees"];
       console.log("followee",this.followers);
     }
-
-      
+    else{
+      await this.request_data("followers");
+      this.followers = global.information["followers"];
+      console.log("follower",this.followers);
+    }
   },
-  // mounted: async function(){
-  //   await this.req_all_follower();
-  //   this.followers = global.information["followers"];
-  //   console.log("hello",this.followers);
-  // }
 };
 </script>

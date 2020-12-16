@@ -64,14 +64,14 @@ async function req_all() {
   if(global.information["login"]==true)
     return;
   await request_data("username"); // everything after username
-  request_data("nickname");
+  await request_data("nickname");
 //   request_data("profile");
-  request_data("email");
-  request_data("signature");
-  request_data("address");
-  request_data("gender");
-  request_data("birthday");
-  request_data("profile");
+  await request_data("email");
+  await request_data("signature");
+  await request_data("address");
+  await request_data("gender");
+  await request_data("birthday");
+  await request_data("profile");
 }
 
 

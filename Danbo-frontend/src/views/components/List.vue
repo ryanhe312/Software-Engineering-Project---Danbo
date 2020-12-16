@@ -51,12 +51,12 @@
           <v-window-item :value="1">
             <Profile />
           </v-window-item>
-          <v-window-item :value="2"> </v-window-item>
-          <v-window-item :value="3"> </v-window-item>
-          <v-window-item :value="4">
+          <!-- <v-window-item :value="2"> </v-window-item> -->
+          <!-- <v-window-item :value="3"> </v-window-item> -->
+          <v-window-item :value="2">
             <Security />
           </v-window-item>
-          <v-window-item :value="5">
+          <v-window-item :value="3">
             <About />
           </v-window-item>
         </v-window>
@@ -84,8 +84,8 @@ export default {
     items: [
       { text: "Personal information", icon: "mdi-account" },
       { text: "Profile photo", icon: "mdi-widgets" },
-      { text: "Privacy", icon: "mdi-account-lock" },
-      { text: "Setting", icon: "mdi-wrench" },
+      // { text: "Privacy", icon: "mdi-account-lock" },
+      // { text: "Setting", icon: "mdi-wrench" },
       { text: "Security", icon: "mdi-security" },
       { text: "About us", icon: "mdi-emoticon-kiss-outline" },
     ],

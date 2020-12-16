@@ -28,54 +28,65 @@
             </v-chip>
           </v-chip-group>
 
-          <v-col cols="12" sm="6">
-            <v-row align="center">
-              <v-text-field
-                v-model="input_tag"
-                label="Topic"
-                clearable
-                min-width="20"
-              ></v-text-field>
-              <v-btn class="mx-2" icon color="success" @click="add_tag()">
-                <v-icon large> mdi-plus-box </v-icon>
-              </v-btn>
-            </v-row>
-          </v-col>
+          <v-row align="center">
+            <v-col cols="12" sm="5" class="mx-4">
+              <v-row align="center">
+                <v-text-field
+                  v-model="input_tag"
+                  label="Topic"
+                  clearable
+                  min-width="20"
+                ></v-text-field>
+                <v-btn class="mx-1" icon color="success" @click="add_tag()">
+                  <v-icon large> mdi-plus-box </v-icon>
+                </v-btn>
+              </v-row>
+            </v-col>
 
-          <v-col></v-col>
-
-          <v-file-input
-            v-model="images"
-            accept="image/png, image/jpeg, image/bmp"
-            color="deep-purple accent-4"
-            counter
-            label="File input"
-            multiple
-            placeholder="Select your images"
-            prepend-icon="mdi-paperclip"
-            outlined
-            :show-size="1000"
-          >
-            <template v-slot:selection="{ index, text }">
-              <v-chip
-                v-if="index < 2"
+            <v-col cols="12" sm="5">
+              <v-file-input
+                v-model="images"
+                accept="image/png, image/jpeg, image/bmp"
                 color="deep-purple accent-4"
-                dark
-                label
-                small
+                counter
+                label="File input"
+                multiple
+                placeholder="Select your images"
+                prepend-icon="mdi-paperclip"
+                outlined
+                :show-size="1000"
               >
-                {{ text }}
-              </v-chip>
+                <template v-slot:selection="{ index, text }">
+                  <v-chip
+                    v-if="index < 2"
+                    color="deep-purple accent-4"
+                    dark
+                    label
+                    small
+                  >
+                    {{ text }}
+                  </v-chip>
 
-              <span
-                v-else-if="index === 2"
-                class="overline grey--text text--darken-3 mx-2"
-              >
-                +{{ images.length - 2 }} image(s)
-              </span>
-            </template>
-          </v-file-input>
+                  <span
+                    v-else-if="index === 2"
+                    class="overline grey--text text--darken-3 mx-2"
+                  >
+                    +{{ images.length - 2 }} image(s)
+                  </span>
+                </template>
+              </v-file-input>
+            </v-col>
 
+            <v-col cols="12" sm="1">
+              <v-card-actions>
+                <v-row justify="end">
+                  <v-btn tile color="success" small @click="release()">
+                    <v-icon> mdi-share </v-icon>
+                  </v-btn>
+                </v-row>
+              </v-card-actions>
+            </v-col>
+          </v-row>
           <v-card class="mx-auto" elevation="0" max-width="360">
             <v-row>
               <v-col
@@ -105,21 +116,11 @@
               </v-col>
             </v-row>
           </v-card>
-
-          <v-card-actions>
-            <v-row justify="end">
-              <v-btn tile color="success" @click="release()">
-                <v-icon left> mdi-share </v-icon>
-                Share
-              </v-btn>
-            </v-row>
-          </v-card-actions>
         </v-col>
       </v-row>
     </v-container>
   </v-card>
 </template>
-
 
 <script>
 import global from "../components/global";
@@ -141,24 +142,24 @@ export default {
   mounted() {},
 
   methods: {
-    img2url: function (img) {
+    img2url: function(img) {
       return URL.createObjectURL(img);
     },
 
-    add_tag: function () {
+    add_tag: function() {
       if (this.input_tag.length > 0) {
         this.tags.push(this.input_tag);
         this.input_tag = "";
       }
     },
 
-    close_tag: function (tag_id) {
+    close_tag: function(tag_id) {
       if (tag_id >= 0 && tag_id < this.tags.length) {
         this.tags.splice(tag_id, 1);
       }
     },
 
-    release: async function () {
+    release: async function() {
       var formdata = new FormData();
       formdata.append("content", this.Share_text);
       for (let i in this.images) {
@@ -172,14 +173,13 @@ export default {
       //request needed data
       await this.axios.post(api, formdata).then((response) => {
         var data = response.data;
-        if (data.message)
-          alert(data.message);
-        if (data.error_code == 200){
+        if (data.message) alert(data.message);
+        if (data.error_code == 200) {
           this.Share_text = "";
           this.images = [];
           this.tags = [];
           this.$emit("refresh_content");
-        } 
+        }
       });
     },
   },
