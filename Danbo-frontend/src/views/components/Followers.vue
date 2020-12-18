@@ -18,7 +18,7 @@
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title>
-                  <router-link :to="{path:'/otherper',query:{user:key}}"> {{key}} </router-link>
+                  <router-link :to="{path:'/otherper',query:{user:value.username}}"> {{value.username}} </router-link>
                 </v-list-item-title>
                   <v-list-item-subtitle
                   v-html="value.signature"

@@ -34,7 +34,7 @@ const request_api = {
     "gender":["/user/getGender",["username"]],
     "allBlogs":["/blog/refreshBlogs",[]],
     "followers":["/user/getFollowers",["username"]],
-    "followees":["/user/getFollowees",["username"]],
+    "followees":["/user/getFollowings",["username"]],
     "hotTopics":["/blog/hotTopics",[]],
     "topicBlogs":["/blog/getTopicBlogs",["currentTopic"]],
     "searchuser":["/user/searchUser",["keyword"]],

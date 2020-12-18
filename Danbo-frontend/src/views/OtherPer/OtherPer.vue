@@ -167,8 +167,11 @@ export default {
     check_follow: async function(){
       await this.request_data("username");
       await this.request_data("followees");
-      var follows = Object.keys(global.information["followees"]);
-      // console.log(follows,this.user)
+      var follow = global.information["followees"];
+      var follows = [];
+      for(var key in follow)
+        follows.push(follow[key].username)
+      console.log(follows,this.user)
       if (follows.indexOf(this.user) >= 0)
         this.follow_flag = true;
     },
