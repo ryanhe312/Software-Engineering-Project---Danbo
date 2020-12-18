@@ -1,57 +1,58 @@
 <template>
-  <v-card class="mx-n16" width="1000" height="800">
+  <v-card class="mx-n16" width="1100" height="800">
     <v-system-bar></v-system-bar>
     <v-card elevation="0" class="mt-4 mx-auto">
       <p class="title" align="center">Personal imformation</p>
     </v-card>
     <v-divider></v-divider>
-    <v-row class="mt-10">
-      <v-col cols="2" sm="4" offset-sm="0">
+    <v-row class="mt-14">
+      <v-col cols="2" sm="3" offset-sm="0">
         <v-card elevation="0" class="mt-2 d-flex justify-end mb-6">
           <p class="font-weight-regular" color="grey lighten-2">Nickname:</p>
         </v-card>
-        <v-card elevation="0" class="mt-6 d-flex justify-end mb-6">
+        <v-card elevation="0" class="mt-8 d-flex justify-end mb-6">
           <p class="font-weight-regular" color="grey lighten-2">E-mail:</p>
         </v-card>
-        <v-card elevation="0" class="mt-15 d-flex justify-end mb-6">
+        <v-card elevation="0" class="mt-16 d-flex justify-end mb-6">
           <p class="font-weight-regular" color="grey lighten-2">
             Personal signature:
           </p>
         </v-card>
-        <v-card elevation="0" class="mt-16 d-flex justify-end mb-6">
-          <p class="font-weight-regular" color="grey lighten-2">
-            Constellation:
-          </p>
+        <v-card elevation="0" class="mt-3 d-flex justify-end mb-6"> </v-card>
+        <v-card elevation="0" class="mt-15 d-flex justify-end mb-6">
+          <p class="font-weight-regular" color="grey lighten-2">Address:</p>
         </v-card>
         <v-card elevation="0" class="mt-7 d-flex justify-end mb-6">
           <p class="font-weight-regular" color="grey lighten-2">Gender:</p>
         </v-card>
-        <v-card elevation="0" class="mt-n1 d-flex justify-end mb-6">
+        <v-card elevation="0" class="mt-7 d-flex justify-end mb-6">
           <p class="font-weight-regular" color="grey lighten-2">Birthday:</p>
         </v-card>
       </v-col>
-      <v-col cols="2" sm="6" offset-sm="0">
-        <v-text-field solo dense v-model="name"></v-text-field>
+
+
+      <v-col cols="2" sm="7" offset-sm="0">
+        <v-text-field solo dense v-model="nickname"></v-text-field>
         <v-text-field
-          class="mt-n1"
-          v-text="mail"
+          class="mt-1"
+          v-text="email"
           color="grey lighten-1"
         ></v-text-field>
         <v-textarea
-          class="mt-6"
+          class="mt-10"
           solo
           dense
           name="input"
           height="120"
-          v-model="input"
+          v-model="signature"
         ></v-textarea>
-        <v-select v-model="select" :items="cons" solo lense></v-select>
-        <v-radio-group class="mt-n1" v-model="radios" row>
-          <v-radio label="Male" value="Male"></v-radio>
-          <v-radio label="Female" value="Female"></v-radio>
-          <v-radio label="Secret" value="Secret"></v-radio>
+        <v-text-field solo dense v-model="address" class="mt-2"></v-text-field>
+        <v-radio-group class="mt-3" v-model="gender" row>
+          <v-radio label="Male" value="0"></v-radio>
+          <v-radio label="Female" value="1"></v-radio>
+          <v-radio label="Secret" value="2"></v-radio>
         </v-radio-group>
-        <v-menu
+         <v-menu
           ref="menu"
           v-model="menu"
           :close-on-content-click="false"
@@ -61,8 +62,8 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              class="mt-n1"
-              v-model="date"
+              class="mt-2"
+              v-model="birthday"
               label="Birthday date"
               prepend-icon="mdi-calendar"
               readonly
@@ -72,58 +73,79 @@
           </template>
           <v-date-picker
             ref="picker"
-            v-model="date"
+            v-model="birthday"
             :max="new Date().toISOString().substr(0, 10)"
+            value-format="YYYY-MM-DD"
             min="1950-01-01"
             @change="save"
           ></v-date-picker>
         </v-menu>
+        <!-- <p class="font-weight-regular" color="grey lighten-2" v-text="birthday"></p> -->
+      </v-col>
+      <v-col cols="2" sm="2" offset-sm="0">
+        <v-card elevation="0" class="mt-2">
+          <v-btn icon color="gray" @click="modify('nickname')">
+            <v-icon>mdi-cached</v-icon>
+          </v-btn>
+        </v-card>
+        <v-card elevation="0" class="mt-16" height="70"> </v-card>
+        <v-card elevation="0" class="mt-14">
+          <v-btn icon color="gray" @click="modify('signature')">
+            <v-icon>mdi-cached</v-icon>
+          </v-btn>
+        </v-card>
+        <v-card elevation="0" class="mt-9">
+          <v-btn icon color="gray" @click="modify('address')">
+            <v-icon>mdi-cached</v-icon>
+          </v-btn>
+        </v-card>
+        <v-card elevation="0" class="mt-8">
+          <v-btn icon color="gray" @click="modify('gender')">
+            <v-icon>mdi-cached</v-icon>
+          </v-btn>
+        </v-card>
+        <v-card elevation="0" class="mt-9">
+          <v-btn icon color="gray" @click="modify('birthday')">
+            <v-icon>mdi-cached</v-icon>
+          </v-btn>
+        </v-card>
       </v-col>
     </v-row>
     <div class="center">
-      <v-card class="mx-auto" elevation="0" width="666" height="10">
+      <v-card class="mx-16" elevation="0" width="666" height="10">
         <v-divider></v-divider>
       </v-card>
-    </div>
-    <div class="text-center">
-      <v-btn class="mt-14" rounded color="primary" dark> Save </v-btn>
     </div>
   </v-card>
 </template>
 
 <script>
+import global from "../components/global"
 export default {
   data: () => ({
-    name: "Piner",
-    select: "Aquarius",
-    input: "my name is wh",
-    cons: [
-      "Aries",
-      "Taurus",
-      "Gemini",
-      "Cancer",
-      "Leo",
-      "Virgo",
-      "Libra",
-      "Scorpio",
-      "Sagittarius",
-      "Capricorn",
-      "Aquarius",
-      "Pisces",
-    ],
-    radios: "Male",
-    mail: "17307130181@fudan.edu.cn",
-    date: "1999-02-14",
+    username: global.information["username"],
+    nickname: global.information["nickname"],
+    signature: global.information["signature"],
+    address: global.information["address"],
+    email: global.information["email"],
+    birthday: global.information["birthday"],
+    gender: String(global.information["gender"]),
     menu: false,
   }),
+  created() {
+  },
   watch: {
     menu(val) {
       val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
     },
   },
   methods: {
-    save(date) {
-      this.$refs.menu.save(date);
+     save(birthday) {
+      this.$refs.menu.save(birthday);
+    },
+
+    modify(needed_data){
+      this.modify_data(needed_data,this.$data[needed_data]);
     },
   },
 };

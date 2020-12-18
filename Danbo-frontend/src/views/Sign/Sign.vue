@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import global from "../components/global"
 export default {
   name: "Dashboard",
 
@@ -55,7 +56,8 @@ export default {
 
     ack_ask_login_user: function (response) {
       if (response.data.error_code == 200) {
-        alert("已经登录！");
+        this.req_all();
+        // alert("已经登录！");
         this.$router.push("/home");
       }
     },
